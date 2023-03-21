@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.argusoft.appointment.dao.user.UserDao;
 import com.argusoft.appointment.entity.User;
+import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
 
 import jakarta.transaction.Transactional;
 
@@ -24,22 +25,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User authenticateUser( String email,  String password) {
+    public User authenticateUser( String email,  String password) throws UnAuthenticatedException {
         // TODO Auto-generated method stub
-        System.out.println("In Service Layer : Authenticating the user");
+        System.out.println("In Service Layer : Authenticating the user"+email+password);
         User user = userDao.getUserByParam("email",email);
         if(user.getPassword().equals(password)){
             System.out.println("User Found and credentials matched");
             return user;
         }
-        return null;
+        else{
+        throw new UnAuthenticatedException("Invalide credenyials");
+ }       
+ 
+//  return null;
     }
 
     @Override
     @Transactional
     public User deleteUserById(int id) {
         // TODO Auto-generated method stub
-        return null;
+        return userDao.deleteUserById(id);
     }
 
     @Override
@@ -53,21 +58,21 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User getUserById(int id) {
         // TODO Auto-generated method stub
-        return null;
+        return userDao.getUserById(id);
     }
 
     @Override
     @Transactional
     public User signUpUser(User user) {
-        System.out.println("Inside Service Layer :");
+        System.out.println("Inside Service Layer : adding the user = "+ user);
         return userDao.addUser(user);
     }
 
     @Override
     @Transactional
-    public User updateUserById(int id) {
+    public User updateUserById(int id,User user) {
         // TODO Auto-generated method stub
-        return null;
+        return userDao.updateUserById(id, user);
     }
     
     

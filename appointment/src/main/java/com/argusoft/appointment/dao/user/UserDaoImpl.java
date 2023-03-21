@@ -9,6 +9,7 @@ import com.argusoft.appointment.entity.User;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 
 
 @Repository
@@ -20,19 +21,20 @@ public class UserDaoImpl implements UserDao {
     public User addUser(User user) {
        
         System.out.println("Inside Dao Layer : Creating the User");
-        entityManager.merge(user);
+        entityManager.persist(user);
         return user;
     }
 
     @Override
     public User deleteUserById(int id) {
         
-        User user = getUserById(id);
-
-        Query query = entityManager.createQuery("delete from User where userId =:id");
+        // User user = getUserById(id);
+        // System.out.println(user);
+        TypedQuery<User> query = entityManager.createQuery("delete from User u where u.id = :id",User.class);
         query.setParameter("id",id);
+
         query.executeUpdate();
-        return user;
+        return null;
     }
 
     @Override
@@ -46,7 +48,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getUsers() {
         
-        Query query = entityManager.createQuery("from User");
+        TypedQuery<User> query = entityManager.createQuery("from User",User.class);
         List<User> data = query.getResultList();
         return data;
     }
@@ -60,11 +62,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByParam(String paramName,String paramValue) {
-        
-        String ql = "from User where "+paramName+"=:"+paramValue;
-        Query query = entityManager.createQuery(ql);
+        System.out.println("Reached the request here "+paramName+"= = = ="+paramValue);
+        String ql = "select u from User u where u."+paramName+"=:id";
 
-        User user = (User) query.getSingleResult();
+        TypedQuery<User> query = entityManager.createQuery(ql, User.class);
+        query.setParameter("id",paramValue);
+        // System.out.println(query.);
+        User user =  query.getSingleResult();
 
         return user;
     }
