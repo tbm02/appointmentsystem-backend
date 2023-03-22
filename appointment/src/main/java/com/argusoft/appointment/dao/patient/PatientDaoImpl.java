@@ -3,44 +3,58 @@ package com.argusoft.appointment.dao.patient;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.argusoft.appointment.entity.Patient;
+import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
+
+@Repository
 public class PatientDaoImpl implements PatientDao {
 
 
     @Autowired
     private EntityManager entityManager;
+
+
+
+    @LogThis
     @Override
     public Patient addPatient(Patient patient) {
        
-        System.out.println("Inside Dao Layer : Creating the Patient");
+        
         entityManager.persist(patient);
         return patient;
     }
 
+
+    @LogThis
     @Override
     public Patient deletePatientById(int id) {
         
-        Patient Patient = getPatientById(id);
+        Patient patient = getPatientById(id);
 
         TypedQuery<Patient> query = entityManager.createQuery("delete from Patient where PatientId =:id",Patient.class);
         query.setParameter("id",id);
         query.executeUpdate();
-        return Patient;
+        return patient;
     }
 
+
+    @LogThis
     @Override
     public Patient getPatientById(int id) {
         
-        Patient Patient = entityManager.find(Patient.class, id);
+        Patient patient = entityManager.find(Patient.class, id);
 
-        return Patient;
+        return patient;
     }
 
+
+    @LogThis
     @Override
     public List<Patient> getPatients() {
         
@@ -49,6 +63,8 @@ public class PatientDaoImpl implements PatientDao {
         return data;
     }
 
+
+    @LogThis
     @Override
     public Patient updatePatientById(int id,Patient updatePatient) {
         
@@ -56,17 +72,22 @@ public class PatientDaoImpl implements PatientDao {
         return updatedPatient;
     }
 
+
+    @LogThis
     @Override
-    public Patient getPatientByParam(String paramName,String paramValue) {
-        System.out.println("Reached the request here "+paramName+"= = = ="+paramValue);
+    public List<Patient> getPatientByParam(String paramName,String paramValue) {
+        
+
+
+
         String ql = "select u from Patient u where u."+paramName+"=:id";
 
         TypedQuery<Patient> query = entityManager.createQuery(ql, Patient.class);
         query.setParameter("id",paramValue);
         // System.out.println(query.);
-        Patient Patient =  query.getSingleResult();
+        List<Patient> patientList =  query.getResultList();
 
-        return Patient;
+        return patientList;
     }
 
     public PatientDaoImpl(){

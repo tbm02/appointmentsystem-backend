@@ -10,7 +10,7 @@ public interface PatientDao {
     public Patient getPatientById(int id);
     public Patient updatePatientById(int id,Patient updatedPatient);
     public Patient deletePatientById(int id);  
-    public Patient getPatientByParam(String paramName,String paramValue); 
+    public List<Patient> getPatientByParam(String paramName,String paramValue); 
 
    
 }

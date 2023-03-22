@@ -27,7 +27,7 @@ import com.argusoft.appointment.utils.responsebody.ResponseError;
 import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping(value = {"","/"})
     public ResponseEntity<ResponseBodyObj> signUpUser(@RequestBody User user){
         
-        System.out.println("Controller: createing the requested User"+user);
+        
         ResponseBodyObj<User> res = new ResponseBodyObj(HttpStatus.OK, "User creatded succefully", (User) userService.signUpUser(user));
         return new ResponseEntity<ResponseBodyObj>(res,HttpStatus.OK);
     }
@@ -46,7 +46,7 @@ public class UserController {
     @LogThis
     @PostMapping(value = {"/login","/login/"})
     public ResponseEntity<ResponseBodyObj> loginUser(@RequestBody LoginRequest<String,String> user) throws UnAuthenticatedException{
-        System.out.println("Controller: Autjeticating  the requested User");
+        
         User u = userService.authenticateUser(user.getEmail(),user.getPassword());
         ResponseBodyObj<User> res = new ResponseBodyObj<>(HttpStatus.OK, "Authenticated Success",u);
         
@@ -57,7 +57,7 @@ public class UserController {
     @LogThis
     @GetMapping(value = {"","/"})
     public List<User> getAllUsers(){
-        System.out.println("Get request is called");
+        
         return userService.getAllUsers();
     }
 
@@ -65,7 +65,7 @@ public class UserController {
     @LogThis
     @GetMapping("/{id}")
     public User getUserById(@PathVariable int id ){
-        System.out.println("Get request for Id is called id = "+id);
+        
         
         return userService.getUserById(id);
     }
@@ -74,15 +74,14 @@ public class UserController {
     @LogThis
     @PutMapping("/{id}")
     public User updateUser(@RequestBody User user,@PathVariable int id){
-        System.out.println("Controller: createing the requested User"+user);
-
+        
         return userService.updateUserById(id,user);
     }
 
     @LogThis
     @DeleteMapping("/{id}")
     public User deleteUser(@RequestBody User user,@PathVariable int id){
-        System.out.println("Controller: createing the requested User"+user);
+        
 
         return userService.deleteUserById(id);
     }

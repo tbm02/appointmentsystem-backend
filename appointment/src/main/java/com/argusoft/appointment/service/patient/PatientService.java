@@ -8,8 +8,8 @@ import com.argusoft.appointment.entity.User;
 import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
 
 public interface PatientService {
-    
-    public List<Patient> getAllPatientsByUserId();
+    public Patient addPatient(Patient patient);
+    public List<Patient> getAllPatientsByUserId(int userId);
     public List<Patient> getAllPatients();
     public Patient getPatientById(int id);
     public Patient updatePatientById(int id,Patient patient);

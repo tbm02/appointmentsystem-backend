@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     public User authenticateUser( String email,  String password) throws UnAuthenticatedException {
         // TODO Auto-generated method stub
         
-        User user = userDao.getUserByParam("email",email);
+        User user = userDao.getUserByParam("email",email).get(0);
         if(user.getPassword().equals(password)){
             System.out.println("User Found and credentials matched");
             return user;

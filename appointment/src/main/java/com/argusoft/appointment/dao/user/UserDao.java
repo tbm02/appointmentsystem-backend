@@ -12,5 +12,5 @@ public interface UserDao {
     public User getUserById(int id);
     public User updateUserById(int id,User updatedUser);
     public User deleteUserById(int id);  
-    public User getUserByParam(String paramName,String paramValue); 
+    public List<User> getUserByParam(String paramName,String paramValue); 
 }

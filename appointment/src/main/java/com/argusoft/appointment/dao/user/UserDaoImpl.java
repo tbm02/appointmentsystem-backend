@@ -74,17 +74,19 @@ public class UserDaoImpl implements UserDao {
 
     @LogThis
     @Override
-    public User getUserByParam(String paramName,String paramValue) {
+    public List<User> getUserByParam(String paramName,String paramValue) {
         System.out.println("Reached the request here "+paramName+"= = = ="+paramValue);
         String ql = "select u from User u where u."+paramName+"=:id";
 
         TypedQuery<User> query = entityManager.createQuery(ql, User.class);
         query.setParameter("id",paramValue);
         // System.out.println(query.);
-        User user =  query.getSingleResult();
+        List<User> userList =  query.getResultList();
 
-        return user;
+        return userList;
     }
+
+
 
     public UserDaoImpl(){
         System.out.println("Hii Confirmation from the dao layer ===========");
