@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.argusoft.appointment.entity.User;
 import com.argusoft.appointment.service.user.UserService;
+import com.argusoft.appointment.utils.customannotations.LogThis;
 import com.argusoft.appointment.utils.request.LoginRequest;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
 import com.argusoft.appointment.utils.responsebody.ResponseError;
@@ -32,7 +33,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("")
+
+    @LogThis
+    @PostMapping(value = {"","/"})
     public ResponseEntity<ResponseBodyObj> signUpUser(@RequestBody User user){
         
         System.out.println("Controller: createing the requested User"+user);
@@ -40,8 +43,8 @@ public class UserController {
         return new ResponseEntity<ResponseBodyObj>(res,HttpStatus.OK);
     }
 
-
-    @PostMapping("/login")
+    @LogThis
+    @PostMapping(value = {"/login","/login/"})
     public ResponseEntity<ResponseBodyObj> loginUser(@RequestBody LoginRequest<String,String> user) throws UnAuthenticatedException{
         System.out.println("Controller: Autjeticating  the requested User");
         User u = userService.authenticateUser(user.getEmail(),user.getPassword());
@@ -50,12 +53,16 @@ public class UserController {
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
-    @GetMapping("/")
+
+    @LogThis
+    @GetMapping(value = {"","/"})
     public List<User> getAllUsers(){
         System.out.println("Get request is called");
         return userService.getAllUsers();
     }
 
+
+    @LogThis
     @GetMapping("/{id}")
     public User getUserById(@PathVariable int id ){
         System.out.println("Get request for Id is called id = "+id);
@@ -63,6 +70,8 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+
+    @LogThis
     @PutMapping("/{id}")
     public User updateUser(@RequestBody User user,@PathVariable int id){
         System.out.println("Controller: createing the requested User"+user);
@@ -70,6 +79,7 @@ public class UserController {
         return userService.updateUserById(id,user);
     }
 
+    @LogThis
     @DeleteMapping("/{id}")
     public User deleteUser(@RequestBody User user,@PathVariable int id){
         System.out.println("Controller: createing the requested User"+user);

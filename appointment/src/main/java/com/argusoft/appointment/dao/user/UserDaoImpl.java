@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.argusoft.appointment.entity.User;
+import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -17,14 +18,19 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired
     private EntityManager entityManager;
+
+
+    @LogThis
     @Override
     public User addUser(User user) {
        
-        System.out.println("Inside Dao Layer : Creating the User");
+        
         entityManager.persist(user);
         return user;
     }
 
+
+    @LogThis
     @Override
     public User deleteUserById(int id) {
         
@@ -37,6 +43,8 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
+
+    @LogThis
     @Override
     public User getUserById(int id) {
         
@@ -45,6 +53,8 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
+
+    @LogThis
     @Override
     public List<User> getUsers() {
         
@@ -53,6 +63,7 @@ public class UserDaoImpl implements UserDao {
         return data;
     }
 
+    @LogThis
     @Override
     public User updateUserById(int id,User updateUser) {
         
@@ -60,6 +71,8 @@ public class UserDaoImpl implements UserDao {
         return updatedUser;
     }
 
+
+    @LogThis
     @Override
     public User getUserByParam(String paramName,String paramValue) {
         System.out.println("Reached the request here "+paramName+"= = = ="+paramValue);

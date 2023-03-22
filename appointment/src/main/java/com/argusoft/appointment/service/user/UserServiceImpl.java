@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.argusoft.appointment.dao.user.UserDao;
 import com.argusoft.appointment.entity.User;
+import com.argusoft.appointment.utils.customannotations.LogThis;
 import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
 
 import jakarta.transaction.Transactional;
@@ -23,11 +24,12 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
 
+    @LogThis
     @Override
     @Transactional
     public User authenticateUser( String email,  String password) throws UnAuthenticatedException {
         // TODO Auto-generated method stub
-        System.out.println("In Service Layer : Authenticating the user"+email+password);
+        
         User user = userDao.getUserByParam("email",email);
         if(user.getPassword().equals(password)){
             System.out.println("User Found and credentials matched");
@@ -40,6 +42,7 @@ public class UserServiceImpl implements UserService {
 //  return null;
     }
 
+    @LogThis
     @Override
     @Transactional
     public User deleteUserById(int id) {
@@ -47,6 +50,7 @@ public class UserServiceImpl implements UserService {
         return userDao.deleteUserById(id);
     }
 
+    @LogThis
     @Override
     @Transactional
     public List<User> getAllUsers() {
@@ -54,6 +58,8 @@ public class UserServiceImpl implements UserService {
         return userDao.getUsers();
     }
 
+
+    @LogThis
     @Override
     @Transactional
     public User getUserById(int id) {
@@ -61,13 +67,17 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserById(id);
     }
 
+
+    @LogThis
     @Override
     @Transactional
     public User signUpUser(User user) {
-        System.out.println("Inside Service Layer : adding the user = "+ user);
+        
         return userDao.addUser(user);
     }
 
+
+    @LogThis
     @Override
     @Transactional
     public User updateUserById(int id,User user) {
