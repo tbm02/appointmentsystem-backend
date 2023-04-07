@@ -1,4 +1,4 @@
-package com.argusoft.appointment.controller.patient;
+package com.argusoft.appointment.controller.hospital;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.argusoft.appointment.entity.Patient;
-import com.argusoft.appointment.service.patient.PatientService;
+import com.argusoft.appointment.entity.Hospital;
+import com.argusoft.appointment.service.hospital.HospitalService;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 import com.argusoft.appointment.utils.request.LoginRequest;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
@@ -24,56 +24,65 @@ import com.argusoft.appointment.utils.responsebody.ResponseError;
 import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
 
 @RestController
-@RequestMapping("/api/patient")
-public class PatientController {
+@RequestMapping("/api/hospital")
+public class HospitalController {
+
     @Autowired
-    private PatientService patientService;
+    private HospitalService hospitalService;
 
 
     @LogThis
     @PostMapping(value = {"","/"})
-    public ResponseEntity<ResponseBodyObj> addNewPatient(@RequestBody Patient patient){
+    public ResponseEntity<ResponseBodyObj> signUpHospital(@RequestBody Hospital hospital){
         
         
-        ResponseBodyObj<Patient> res = new ResponseBodyObj(HttpStatus.OK, "Patient creatded succefully", (Patient) patientService.addPatient(patient));
+        ResponseBodyObj<Hospital> res = new ResponseBodyObj(HttpStatus.OK, "Hospital creatded succefully", (Hospital) hospitalService.signUpHospital(hospital));
         return new ResponseEntity<ResponseBodyObj>(res,HttpStatus.OK);
     }
 
-    
+    @LogThis
+    @PostMapping(value = {"/login","/login/"})
+    public ResponseEntity<ResponseBodyObj> loginHospital(@RequestBody LoginRequest<String,String> hospital) throws UnAuthenticatedException{
+        
+        Hospital u = hospitalService.authenticateHospital(hospital.getEmail(),hospital.getPassword());
+        ResponseBodyObj<Hospital> res = new ResponseBodyObj<>(HttpStatus.OK, "Authenticated Success",u);
+        
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
 
 
     @LogThis
     @GetMapping(value = {"","/"})
-    public List<Patient> getAllPatients(){
+    public List<Hospital> getAllHospitals(){
         
-        return patientService.getAllPatients();
+        return hospitalService.getAllHospitals();
     }
 
 
     @LogThis
     @GetMapping("/{id}")
-    public Patient getPatientById(@PathVariable int id ){
+    public Hospital getHospitalById(@PathVariable int id ){
         
         
-        return patientService.getPatientById(id);
+        return hospitalService.getHospitalById(id);
     }
 
 
     @LogThis
     @PutMapping("/{id}")
-    public Patient updatePatient(@RequestBody Patient patient,@PathVariable int id){
+    public Hospital updateHospital(@RequestBody Hospital hospital,@PathVariable int id){
         
-        return patientService.updatePatientById(id,patient);
+        return hospitalService.updateHospitalById(id,hospital);
     }
 
     @LogThis
     @DeleteMapping("/{id}")
-    public Patient deletePatient(@PathVariable int id){
+    public Hospital deleteHospital(@PathVariable int id){
         
 
-        return patientService.deletePatientById(id);
+        return hospitalService.deleteHospitalById(id);
     }
-    public PatientController(){
+    public HospitalController(){
 
     }
     @ExceptionHandler(value = jakarta.persistence.NoResultException.class)
@@ -85,5 +94,10 @@ public class PatientController {
         ResponseError error = new ResponseError(HttpStatus.BAD_REQUEST, "Please match the constraunts");
                 return new ResponseEntity<ResponseError>(error,HttpStatus.BAD_REQUEST);
     }
-   
+    @ExceptionHandler(value = UnAuthenticatedException.class)
+    public ResponseEntity<ResponseError> handleUnathentic(){
+        ResponseError error = new ResponseError(HttpStatus.UNAUTHORIZED, "You are not allowed to access");
+                return new ResponseEntity<ResponseError>(error,HttpStatus.UNAUTHORIZED);
+    }
+    
 }

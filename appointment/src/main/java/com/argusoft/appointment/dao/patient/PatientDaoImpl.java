@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.argusoft.appointment.entity.Patient;
+import com.argusoft.appointment.entity.User;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
@@ -25,7 +26,11 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public Patient addPatient(Patient patient) {
        
-        
+        // System.out.println(patient.getUser());
+        // patient.setUser();
+        User tempUser = entityManager.find(User.class, patient.getUser().getId());
+        // System.out.println(patient);
+        patient.setUser(tempUser);
         entityManager.persist(patient);
         return patient;
     }
@@ -37,9 +42,10 @@ public class PatientDaoImpl implements PatientDao {
         
         Patient patient = getPatientById(id);
 
-        TypedQuery<Patient> query = entityManager.createQuery("delete from Patient where PatientId =:id",Patient.class);
-        query.setParameter("id",id);
-        query.executeUpdate();
+        // TypedQuery<Patient> query = entityManager.createQuery("delete from Patient where PatientId =:id",Patient.class);
+        // query.setParameter("id",id);
+        // query.executeUpdate();
+        entityManager.remove(patient);
         return patient;
     }
 
@@ -67,7 +73,7 @@ public class PatientDaoImpl implements PatientDao {
     @LogThis
     @Override
     public Patient updatePatientById(int id,Patient updatePatient) {
-        
+        updatePatient.setPatientId(id);
         Patient updatedPatient = entityManager.merge(updatePatient);
         return updatedPatient;
     }

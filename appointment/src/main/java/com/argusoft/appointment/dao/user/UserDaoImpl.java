@@ -34,13 +34,14 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User deleteUserById(int id) {
         
-        // User user = getUserById(id);
-        // System.out.println(user);
-        TypedQuery<User> query = entityManager.createQuery("delete from User u where u.id = :id",User.class);
-        query.setParameter("id",id);
+        User user = entityManager.find(User.class,id);
+        // TypedQuery<User> query = entityManager.createQuery("delete from User u where u.id = :id",User.class);
+        // query.setParameter("id",id);
 
-        query.executeUpdate();
-        return null;
+        // query.executeUpdate();
+        // User user = entityManager.
+        entityManager.remove(user);
+        return user;
     }
 
 
@@ -66,8 +67,9 @@ public class UserDaoImpl implements UserDao {
     @LogThis
     @Override
     public User updateUserById(int id,User updateUser) {
-        
+        updateUser.setId(id);
         User updatedUser = entityManager.merge(updateUser);
+        
         return updatedUser;
     }
 
@@ -80,7 +82,7 @@ public class UserDaoImpl implements UserDao {
 
         TypedQuery<User> query = entityManager.createQuery(ql, User.class);
         query.setParameter("id",paramValue);
-        // System.out.println(query.);
+        
         List<User> userList =  query.getResultList();
 
         return userList;

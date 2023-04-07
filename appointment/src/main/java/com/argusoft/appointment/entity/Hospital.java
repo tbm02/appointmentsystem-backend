@@ -2,6 +2,8 @@ package com.argusoft.appointment.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -32,6 +34,7 @@ public class Hospital {
     private String password;
 
     @OneToMany(mappedBy = "hospital")
+    @JsonIgnore
     List<Doctor> doctors;
 
     public List<Doctor> getDoctors() {

@@ -80,7 +80,7 @@ public class UserController {
 
     @LogThis
     @DeleteMapping("/{id}")
-    public User deleteUser(@RequestBody User user,@PathVariable int id){
+    public User deleteUser(@PathVariable int id){
         
 
         return userService.deleteUserById(id);

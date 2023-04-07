@@ -1,8 +1,14 @@
 package com.argusoft.appointment.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -35,6 +41,29 @@ public class User {
 
     @Column(name="dob")
     private java.sql.Date dob;
+
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Patient> patients;
+
+
+    
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+    }
 
     public int getId() {
         return id;

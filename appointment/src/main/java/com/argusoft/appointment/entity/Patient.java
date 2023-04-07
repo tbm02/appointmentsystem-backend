@@ -22,7 +22,11 @@ public class Patient {
     @Column(name = "patientLastName")
     private String patientLastName;
 
+    @Column(name="patientContactNo")
+    private String patientContactNo;
 
+
+    
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
@@ -73,12 +77,20 @@ public class Patient {
     @Override
     public String toString() {
         return "Patient [patientId=" + patientId + ", patientFirstName=" + patientFirstName + ", patientLastName="
-                + patientLastName + ", user=" + user + ", dob=" + dob + "]";
+                + patientLastName +  ", dob=" + dob + "]";
     }
 
 
     public Patient(){
         System.out.println("Patient:Creating a patient Object");
+    }
+
+    public String getPatientContactNo() {
+        return patientContactNo;
+    }
+
+    public void setPatientContactNo(String patientContactNo) {
+        this.patientContactNo = patientContactNo;
     }
     
 

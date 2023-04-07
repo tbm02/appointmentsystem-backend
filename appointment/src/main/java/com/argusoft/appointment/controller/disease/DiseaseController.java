@@ -1,4 +1,4 @@
-package com.argusoft.appointment.controller.patient;
+package com.argusoft.appointment.controller.disease;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.argusoft.appointment.entity.Patient;
-import com.argusoft.appointment.service.patient.PatientService;
+import com.argusoft.appointment.entity.Disease;
+import com.argusoft.appointment.service.disease.DiseaseService;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 import com.argusoft.appointment.utils.request.LoginRequest;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
@@ -24,18 +24,19 @@ import com.argusoft.appointment.utils.responsebody.ResponseError;
 import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
 
 @RestController
-@RequestMapping("/api/patient")
-public class PatientController {
+@RequestMapping("/api/disease")
+public class DiseaseController {
+
     @Autowired
-    private PatientService patientService;
+    private DiseaseService diseaseService;
 
 
     @LogThis
     @PostMapping(value = {"","/"})
-    public ResponseEntity<ResponseBodyObj> addNewPatient(@RequestBody Patient patient){
+    public ResponseEntity<ResponseBodyObj> addDisease(@RequestBody Disease disease){
         
         
-        ResponseBodyObj<Patient> res = new ResponseBodyObj(HttpStatus.OK, "Patient creatded succefully", (Patient) patientService.addPatient(patient));
+        ResponseBodyObj<Disease> res = new ResponseBodyObj(HttpStatus.OK, "Disease creatded succefully", (Disease) diseaseService.addDisease(disease));
         return new ResponseEntity<ResponseBodyObj>(res,HttpStatus.OK);
     }
 
@@ -44,36 +45,36 @@ public class PatientController {
 
     @LogThis
     @GetMapping(value = {"","/"})
-    public List<Patient> getAllPatients(){
+    public List<Disease> getAllDiseases(){
         
-        return patientService.getAllPatients();
+        return diseaseService.getAllDiseases();
     }
 
 
     @LogThis
     @GetMapping("/{id}")
-    public Patient getPatientById(@PathVariable int id ){
+    public Disease getDiseaseById(@PathVariable int id ){
         
         
-        return patientService.getPatientById(id);
+        return diseaseService.getDiseaseById(id);
     }
 
 
     @LogThis
     @PutMapping("/{id}")
-    public Patient updatePatient(@RequestBody Patient patient,@PathVariable int id){
+    public Disease updateDisease(@RequestBody Disease disease,@PathVariable int id){
         
-        return patientService.updatePatientById(id,patient);
+        return diseaseService.updateDiseaseById(id,disease);
     }
 
     @LogThis
     @DeleteMapping("/{id}")
-    public Patient deletePatient(@PathVariable int id){
+    public Disease deleteDisease(@PathVariable int id){
         
 
-        return patientService.deletePatientById(id);
+        return diseaseService.deleteDiseaseById(id);
     }
-    public PatientController(){
+    public DiseaseController(){
 
     }
     @ExceptionHandler(value = jakarta.persistence.NoResultException.class)
@@ -85,5 +86,10 @@ public class PatientController {
         ResponseError error = new ResponseError(HttpStatus.BAD_REQUEST, "Please match the constraunts");
                 return new ResponseEntity<ResponseError>(error,HttpStatus.BAD_REQUEST);
     }
-   
+    @ExceptionHandler(value = UnAuthenticatedException.class)
+    public ResponseEntity<ResponseError> handleUnathentic(){
+        ResponseError error = new ResponseError(HttpStatus.UNAUTHORIZED, "You are not allowed to access");
+                return new ResponseEntity<ResponseError>(error,HttpStatus.UNAUTHORIZED);
+    }
+    
 }

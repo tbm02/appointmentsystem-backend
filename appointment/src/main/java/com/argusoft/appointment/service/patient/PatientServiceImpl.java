@@ -9,6 +9,8 @@ import com.argusoft.appointment.dao.patient.PatientDao;
 import com.argusoft.appointment.entity.Patient;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 
+import jakarta.transaction.Transactional;
+
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -18,11 +20,14 @@ public class PatientServiceImpl implements PatientService {
 
     @LogThis
     @Override
+    @Transactional
+
     public Patient addPatient(Patient patient) {
         return patientDao.addPatient(patient);
     }
     @LogThis
     @Override
+    @Transactional
     public Patient deletePatientById(int id) {
         return patientDao.deletePatientById(id);
     }
@@ -30,6 +35,7 @@ public class PatientServiceImpl implements PatientService {
 
     @LogThis
     @Override
+    @Transactional
     public List<Patient> getAllPatients() {
         return patientDao.getPatients();
     }
@@ -37,6 +43,7 @@ public class PatientServiceImpl implements PatientService {
 
     @LogThis
     @Override
+    @Transactional
     public List<Patient> getAllPatientsByUserId(int userId) {
         return patientDao.getPatientByParam("userId", String.valueOf(userId));
     }
@@ -44,15 +51,17 @@ public class PatientServiceImpl implements PatientService {
 
     @LogThis
     @Override
+    @Transactional
     public Patient getPatientById(int id) {
-        return null;
+        return patientDao.getPatientById(id);
     }
 
 
     @LogThis
     @Override
+    @Transactional
     public Patient updatePatientById(int id, Patient patient) {
-        return null;
+        return patientDao.updatePatientById(id, patient);
     }
     
 }
