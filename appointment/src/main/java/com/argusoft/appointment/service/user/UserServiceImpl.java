@@ -3,6 +3,7 @@ package com.argusoft.appointment.service.user;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -46,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User deleteUserById(int id) {
-        // TODO Auto-generated method stub
+        
         return userDao.deleteUserById(id);
     }
 
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public List<User> getAllUsers() {
-        // TODO Auto-generated method stub
+       
         return userDao.getUsers();
     }
 
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User getUserById(int id) {
-        // TODO Auto-generated method stub
+       
         return userDao.getUserById(id);
     }
 
@@ -71,8 +72,10 @@ public class UserServiceImpl implements UserService {
     @LogThis
     @Override
     @Transactional
-    public User signUpUser(User user) {
-        
+    public User signUpUser(User user) throws DuplicateKeyException{
+        if((user.getId() != 0 && userDao.getUserById(user.getId()) != null) ){
+            throw new DuplicateKeyException("user with same id already exist");
+        }
         return userDao.addUser(user);
     }
 
@@ -81,7 +84,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User updateUserById(int id,User user) {
-        // TODO Auto-generated method stub
+       
         return userDao.updateUserById(id, user);
     }
     

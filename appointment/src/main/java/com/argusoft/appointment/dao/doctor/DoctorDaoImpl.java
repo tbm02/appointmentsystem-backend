@@ -22,11 +22,11 @@ public class DoctorDaoImpl implements DoctorDao {
 
     @LogThis
     @Override
-    public Doctor addDoctor(Doctor user) {
+    public Doctor addDoctor(Doctor doctor) {
        
         
-        entityManager.persist(user);
-        return user;
+        entityManager.persist(doctor);
+        return doctor;
     }
 
 
@@ -34,10 +34,10 @@ public class DoctorDaoImpl implements DoctorDao {
     @Override
     public Doctor deleteDoctorById(int id) {
         
-        Doctor user = entityManager.find(Doctor.class,id);
+        Doctor doctor = entityManager.find(Doctor.class,id);
         
-        entityManager.remove(user);
-        return user;
+        entityManager.remove(doctor);
+        return doctor;
     }
 
 
@@ -45,9 +45,9 @@ public class DoctorDaoImpl implements DoctorDao {
     @Override
     public Doctor getDoctorById(int id) {
         
-        Doctor user = entityManager.find(Doctor.class, id);
+        Doctor doctor = entityManager.find(Doctor.class, id);
 
-        return user;
+        return doctor;
     }
 
 
@@ -78,9 +78,9 @@ public class DoctorDaoImpl implements DoctorDao {
         TypedQuery<Doctor> query = entityManager.createQuery(ql, Doctor.class);
         query.setParameter("id",paramValue);
         
-        List<Doctor> userList =  query.getResultList();
+        List<Doctor> doctorList =  query.getResultList();
 
-        return userList;
+        return doctorList;
     }
 
 
