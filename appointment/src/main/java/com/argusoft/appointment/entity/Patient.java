@@ -6,6 +6,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name="Patient")
@@ -23,9 +25,13 @@ public class Patient {
     private String patientLastName;
 
     @Column(name="patientContactNo")
+    @Pattern(regexp = "([+][1-9]{2,3})?([2-9]{1}[0-9]{5}|[789]{1}[0-9]{9})", message = "Please Provide the valid Contact No")
     private String patientContactNo;
 
-
+    @NotBlank(message = "Please Provide the Patient email as it can not be left emptty")
+    @Pattern(regexp = "[a-z]+([0-9]*)[@][a-z]+[.][a-z]{2,3}", message = "Please Provide the valid email")
+    @Column(name = "patientEmail")
+    private String patientEmail;
     
     @ManyToOne
     @JoinColumn(name = "userId")

@@ -24,12 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.argusoft.appointment.entity.User;
 import com.argusoft.appointment.service.user.UserService;
 import com.argusoft.appointment.utils.customannotations.LogThis;
+import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 import com.argusoft.appointment.utils.request.LoginRequest;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
 import com.argusoft.appointment.utils.responsebody.ResponseError;
-import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Null;
 
 @RestController
 @RequestMapping("/api/user")
@@ -77,7 +78,7 @@ public class UserController {
 
     @LogThis
     @PutMapping("/{id}")
-    public User updateUser(@RequestBody User user, @PathVariable int id) {
+    public User updateUser(@RequestBody @Valid User user, @PathVariable int id) {
 
         return userService.updateUserById(id, user);
     }
@@ -92,38 +93,5 @@ public class UserController {
     public UserController() {
 
     }
-    @ExceptionHandler(value = org.springframework.web.bind.MethodArgumentNotValidException.class)
-    public ResponseEntity<ResponseError> validateUser(org.springframework.web.bind.MethodArgumentNotValidException e) {
-        List<String> errors = new ArrayList<>();
-       for(ObjectError err:e.getAllErrors()){
-        errors.add(err.getDefaultMessage());
-       }
-        ResponseError error = new ResponseError(HttpStatus.BAD_REQUEST, "Please Match Validations",errors);
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
-
-    }
-    @ExceptionHandler(value = jakarta.persistence.NoResultException.class)
-    public ResponseEntity<ResponseError> handleNoResultFound(jakarta.persistence.NoResultException e) {
-        ResponseError error = new ResponseError(HttpStatus.BAD_REQUEST, "Unable to find user for" + e.getMessage());
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
-
-    }
-
-    @ExceptionHandler(value = DuplicateKeyException.class)
-    public ResponseEntity<ResponseError> duplicateKey(DuplicateKeyException e) {
-        ResponseError error = new ResponseError(HttpStatus.BAD_REQUEST, "Duplicate Entry error for" + e.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = java.sql.SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<ResponseError> handleIntegrity(java.sql.SQLIntegrityConstraintViolationException e) {
-        ResponseError error = new ResponseError(HttpStatus.BAD_REQUEST, "Please match the constraunts");
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = UnAuthenticatedException.class)
-    public ResponseEntity<ResponseError> handleUnathentic() {
-        ResponseError error = new ResponseError(HttpStatus.UNAUTHORIZED, "You are not allowed to access");
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-    }
+    
 }

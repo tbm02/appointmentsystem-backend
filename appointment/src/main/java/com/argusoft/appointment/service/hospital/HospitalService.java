@@ -3,7 +3,7 @@ package com.argusoft.appointment.service.hospital;
 import java.util.List;
 
 import com.argusoft.appointment.entity.Hospital;
-import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
+import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 
 public interface HospitalService {
     public Hospital signUpHospital(Hospital hospital);

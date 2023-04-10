@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.argusoft.appointment.entity.Patient;
 import com.argusoft.appointment.service.patient.PatientService;
 import com.argusoft.appointment.utils.customannotations.LogThis;
+import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 import com.argusoft.appointment.utils.request.LoginRequest;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
 import com.argusoft.appointment.utils.responsebody.ResponseError;
-import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
 
 @RestController
 @RequestMapping("/api/patient")
@@ -76,14 +76,6 @@ public class PatientController {
     public PatientController(){
 
     }
-    @ExceptionHandler(value = jakarta.persistence.NoResultException.class)
-    public ResponseEntity<ResponseBodyObj> handleNullPointer(){
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-    @ExceptionHandler(value = java.sql.SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<ResponseError> handleIntegrity(){
-        ResponseError error = new ResponseError(HttpStatus.BAD_REQUEST, "Please match the constraunts");
-                return new ResponseEntity<ResponseError>(error,HttpStatus.BAD_REQUEST);
-    }
+    
    
 }

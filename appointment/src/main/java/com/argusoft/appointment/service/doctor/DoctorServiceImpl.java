@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.argusoft.appointment.dao.doctor.DoctorDao;
 import com.argusoft.appointment.entity.Doctor;
 import com.argusoft.appointment.utils.customannotations.LogThis;
-import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
+import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 
 import jakarta.transaction.Transactional;
 

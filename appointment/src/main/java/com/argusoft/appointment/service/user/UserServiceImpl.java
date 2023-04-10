@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.argusoft.appointment.dao.user.UserDao;
 import com.argusoft.appointment.entity.User;
 import com.argusoft.appointment.utils.customannotations.LogThis;
-import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
+import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 
 import jakarta.transaction.Transactional;
 

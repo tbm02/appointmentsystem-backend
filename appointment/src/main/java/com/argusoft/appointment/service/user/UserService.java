@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.dao.DuplicateKeyException;
 
 import com.argusoft.appointment.entity.User;
-import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
+import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 
 public interface UserService {
     

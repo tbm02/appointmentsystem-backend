@@ -1,4 +1,4 @@
-package com.argusoft.appointment.utils.responsebody;
+package com.argusoft.appointment.utils.customexceptions;
 
 public class UnAuthenticatedException extends Throwable {
 

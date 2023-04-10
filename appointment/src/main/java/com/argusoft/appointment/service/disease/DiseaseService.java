@@ -3,7 +3,7 @@ package com.argusoft.appointment.service.disease;
 import java.util.List;
 
 import com.argusoft.appointment.entity.Disease;
-import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
+import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 
 public interface DiseaseService {
     public Disease addDisease(Disease disease);

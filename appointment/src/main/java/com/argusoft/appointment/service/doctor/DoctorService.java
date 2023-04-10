@@ -3,7 +3,7 @@ package com.argusoft.appointment.service.doctor;
 import java.util.List;
 
 import com.argusoft.appointment.entity.Doctor;
-import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
+import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 
 public interface DoctorService {
     public Doctor signUpDoctor(Doctor doctor);

@@ -1,5 +1,6 @@
 package com.argusoft.appointment.controller.doctor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.argusoft.appointment.entity.Doctor;
 import com.argusoft.appointment.service.doctor.DoctorService;
 import com.argusoft.appointment.utils.customannotations.LogThis;
+import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 import com.argusoft.appointment.utils.request.LoginRequest;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
 import com.argusoft.appointment.utils.responsebody.ResponseError;
-import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/doctor")
@@ -36,7 +40,7 @@ public class DoctorController {
 
     @LogThis
     @PostMapping(value = {"","/"})
-    public ResponseEntity<ResponseBodyObj> signUpDoctor(@RequestBody Doctor doctor){
+    public ResponseEntity<ResponseBodyObj> signUpDoctor(@RequestBody @Valid Doctor doctor){
         
         
         ResponseBodyObj<Doctor> res = new ResponseBodyObj(HttpStatus.OK, "Doctor creatded succefully", (Doctor) doctorService.signUpDoctor(doctor));
@@ -73,7 +77,7 @@ public class DoctorController {
 
     @LogThis
     @PutMapping("/{id}")
-    public Doctor updateDoctor(@RequestBody Doctor doctor,@PathVariable int id){
+    public Doctor updateDoctor(@RequestBody @Valid Doctor doctor,@PathVariable int id){
         
         return doctorService.updateDoctorById(id,doctor);
     }
@@ -88,18 +92,5 @@ public class DoctorController {
     public DoctorController(){
 
     }
-    @ExceptionHandler(value = jakarta.persistence.NoResultException.class)
-    public ResponseEntity<ResponseBodyObj> handleNullPointer(){
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-    @ExceptionHandler(value = java.sql.SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<ResponseError> handleIntegrity(){
-        ResponseError error = new ResponseError(HttpStatus.BAD_REQUEST, "Please match the constraunts");
-                return new ResponseEntity<ResponseError>(error,HttpStatus.BAD_REQUEST);
-    }
-    @ExceptionHandler(value = UnAuthenticatedException.class)
-    public ResponseEntity<ResponseError> handleUnathentic(){
-        ResponseError error = new ResponseError(HttpStatus.UNAUTHORIZED, "You are not allowed to access");
-                return new ResponseEntity<ResponseError>(error,HttpStatus.UNAUTHORIZED);
-    }
+    
 }

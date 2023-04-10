@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.argusoft.appointment.entity.Patient;
 import com.argusoft.appointment.entity.User;
-import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
+import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 
 public interface PatientService {
     public Patient addPatient(Patient patient);

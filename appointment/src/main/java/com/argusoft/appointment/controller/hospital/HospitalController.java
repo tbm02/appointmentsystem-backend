@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.argusoft.appointment.entity.Hospital;
 import com.argusoft.appointment.service.hospital.HospitalService;
 import com.argusoft.appointment.utils.customannotations.LogThis;
+import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 import com.argusoft.appointment.utils.request.LoginRequest;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
 import com.argusoft.appointment.utils.responsebody.ResponseError;
-import com.argusoft.appointment.utils.responsebody.UnAuthenticatedException;
 
 @RestController
 @RequestMapping("/api/hospital")
@@ -85,19 +85,6 @@ public class HospitalController {
     public HospitalController(){
 
     }
-    @ExceptionHandler(value = jakarta.persistence.NoResultException.class)
-    public ResponseEntity<ResponseBodyObj> handleNullPointer(){
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-    @ExceptionHandler(value = java.sql.SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<ResponseError> handleIntegrity(){
-        ResponseError error = new ResponseError(HttpStatus.BAD_REQUEST, "Please match the constraunts");
-                return new ResponseEntity<ResponseError>(error,HttpStatus.BAD_REQUEST);
-    }
-    @ExceptionHandler(value = UnAuthenticatedException.class)
-    public ResponseEntity<ResponseError> handleUnathentic(){
-        ResponseError error = new ResponseError(HttpStatus.UNAUTHORIZED, "You are not allowed to access");
-                return new ResponseEntity<ResponseError>(error,HttpStatus.UNAUTHORIZED);
-    }
+    
     
 }
