@@ -12,12 +12,12 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Consumer")
-public class Consumer {
+@Table(name = "Person")
+public class Person {
 
     @Id
-    @Column(name = "consumerId")
-    private int consumerId;
+    @Column(name = "personId")
+    private int personId;
 
     @Column(name = "firstName")
     private String firstName;
@@ -26,8 +26,8 @@ public class Consumer {
     private String lastName;
 
     @OneToOne
-    @JoinColumn(name = "userId")
-    private User userId;
+    @JoinColumn(name = "roleId")
+    private Role role;
 
     @Column(name = "dob")
     private Date dob;
@@ -35,15 +35,15 @@ public class Consumer {
     @Column(name = "address")
     private String address;
 
-    @OneToMany(mappedBy = "consumer")
+    @OneToMany(mappedBy = "person")
     private List<Patient> patients;
 
-    public int getConsumerId() {
-        return consumerId;
+    public int getPersonId() {
+        return personId;
     }
 
-    public void setConsumerId(int consumerId) {
-        this.consumerId = consumerId;
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 
     public String getFirstName() {
@@ -62,13 +62,7 @@ public class Consumer {
         this.lastName = lastName;
     }
 
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
+    
 
     public Date getDob() {
         return dob;
@@ -94,10 +88,5 @@ public class Consumer {
         this.patients = patients;
     }
 
-    // @Column(name = "createdAt")
-    // private Date createdAt;
-
-    // @Column(name = "updatedAt")
-    // private Date updatedAt;
-
+   
 }

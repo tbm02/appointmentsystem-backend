@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.argusoft.appointment.entity.Consumer;
+import com.argusoft.appointment.entity.Person;
 import com.argusoft.appointment.entity.Patient;
 import com.argusoft.appointment.entity.User;
 import com.argusoft.appointment.utils.customannotations.LogThis;
@@ -29,9 +29,9 @@ public class PatientDaoImpl implements PatientDao {
     public Patient addPatient(Patient patient) {
        
      
-        Consumer tempConsumer = entityManager.find(Consumer.class, patient.getConsumer().getConsumerId());
+        Person tempPerson = entityManager.find(Person.class, patient.getPerson().getPersonId());
         
-        patient.setConsumer(tempConsumer);
+        patient.setPerson(tempPerson);
         entityManager.persist(patient);
         return patient;
     }

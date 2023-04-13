@@ -1,16 +1,16 @@
-package com.argusoft.appointment.dao.consumer;
+package com.argusoft.appointment.dao.person;
 
 import java.util.List;
 
-import com.argusoft.appointment.entity.Consumer;
+import com.argusoft.appointment.entity.Person;
 
-public interface ConsumerDao {
+public interface PersonDao {
 
-    public Consumer addConsumer(Consumer consumer) ;
-    public List<Consumer> getConsumers();
-    public Consumer getConsumerById(int id);
-    public Consumer updateConsumerById(int id,Consumer updatedConsumer);
-    public Consumer deleteConsumerById(int id);  
-    public List<Consumer> getConsumerByParam(String paramName,String paramValue); 
+    public Person addPerson(Person person) ;
+    public List<Person> getPersons();
+    public Person getPersonById(int id);
+    public Person updatePersonById(int id,Person updatedPerson);
+    public Person deletePersonById(int id);  
+    public List<Person> getPersonByParam(String paramName,String paramValue); 
     
 }

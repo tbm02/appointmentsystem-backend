@@ -20,24 +20,24 @@ public class Patient {
     @Column(name = "patientId")
     private int patientId;
 
-    @Column(name = "patientFirstName")
-    private String patientFirstName;
+    @Column(name = "firstName")
+    private String firstName;
 
-    @Column(name = "patientLastName")
-    private String patientLastName;
+    @Column(name = "lastName")
+    private String lastName;
 
-    @Column(name = "patientContactNo")
+    @Column(name = "contactNo")
     @Pattern(regexp = "([+][1-9]{2,3})?([2-9]{1}[0-9]{5}|[789]{1}[0-9]{9})", message = "Please Provide the valid Contact No")
-    private String patientContactNo;
+    private String contactNo;
 
     @NotBlank(message = "Please Provide the Patient email as it can not be left emptty")
     @Pattern(regexp = "[a-z]+([0-9]*)[@][a-z]+[.][a-z]{2,3}", message = "Please Provide the valid email")
-    @Column(name = "patientEmail")
-    private String patientEmail;
+    @Column(name = "email")
+    private String email;
 
     @ManyToOne
-    @JoinColumn(name = "consumerId")
-    private Consumer consumer;
+    @JoinColumn(name = "personId")
+    private Person person;
 
     @Column(name = "dob")
     private java.sql.Date dob;
@@ -54,28 +54,14 @@ public class Patient {
         this.patientId = patientId;
     }
 
-    public String getPatientFirstName() {
-        return patientFirstName;
+  
+
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPatientFirstName(String patientFirstName) {
-        this.patientFirstName = patientFirstName;
-    }
-
-    public String getPatientLastName() {
-        return patientLastName;
-    }
-
-    public void setPatientLastName(String patientLastName) {
-        this.patientLastName = patientLastName;
-    }
-
-    public Consumer getConsumer() {
-        return consumer;
-    }
-
-    public void setConsumer(Consumer consumer) {
-        this.consumer = consumer;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public java.sql.Date getDob() {
@@ -88,20 +74,51 @@ public class Patient {
 
     @Override
     public String toString() {
-        return "Patient [patientId=" + patientId + ", patientFirstName=" + patientFirstName + ", patientLastName="
-                + patientLastName + ", dob=" + dob + "]";
+        return "Patient [patientId=" + patientId + ", patientFirstName=" + firstName + ", patientLastName="
+                + lastName + ", dob=" + dob + "]";
     }
 
-    public Patient() {
-        // System.out.println("Patient:Creating a patient Object");
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getPatientContactNo() {
-        return patientContactNo;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setPatientContactNo(String patientContactNo) {
-        this.patientContactNo = patientContactNo;
+    public String getLastName() {
+        return lastName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Set<Disease> getDiseases() {
+        return diseases;
+    }
+
+    public void setDiseases(Set<Disease> diseases) {
+        this.diseases = diseases;
+    }
+
+    
+
+   
 }

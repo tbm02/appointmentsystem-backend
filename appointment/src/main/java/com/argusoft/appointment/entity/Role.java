@@ -2,10 +2,9 @@ package com.argusoft.appointment.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+
 import jakarta.persistence.Table;
-// import jakarta.validation.OverridesAttribute.List;
-import java.util.List;
+
 
 @Entity
 @Table(name = "Role")
@@ -18,8 +17,6 @@ public class Role {
     private String roleName;
 
 
-    @OneToMany(mappedBy = "userRoleId")
-    private List<User> users;
 
     
     public int getRoleId() {

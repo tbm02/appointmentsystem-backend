@@ -2,14 +2,6 @@ package com.argusoft.appointment.entity;
 
 import java.sql.Time;
 import java.util.Set;
-
-import org.hibernate.cfg.Environment;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties.Env;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,32 +9,38 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "Doctor")
-@PropertySources({
-        @PropertySource("classpath:application.properties"),
-        @PropertySource("classpath:regex.properties")
-})
 public class Doctor {
-   
+
     @Id
     @Column(name = "doctorId")
     private int doctorId;
 
-    @Column(name = "doctorName")
+    @Column(name = "firstName")
     @NotBlank(message = "Please provide doctors name as it can not be empty")
-    private String doctorName;
+    private String firstName;
 
-    @Column(name = "doctorEmail")
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Column(name = "lastName")
+    @NotBlank(message = "Please provide doctors name as it can not be empty")
+    private String lastName;
+
+    @Column(name = "email")
     @NotBlank(message = "Please Provide the doctors email as it can not be left emptty")
     @Pattern(regexp = "[a-z]+([0-9]*)[@][a-z]+[.][a-z]{2,3}", message = "Please Provide the valid email")
-    private String doctorEmail;
+    private String email;
 
     @Column(name = "password")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$", message = "Password must contain atleast one capital charchter, one small character, one digit and one special character and minimum length is 8")
@@ -62,10 +60,6 @@ public class Doctor {
     )
     private Set<Disease> diseases;
 
-    @OneToOne
-    @JoinColumn(name = "userId")
-    private User userId;
-
     @Column(name = "slotDuration")
     private int slotDuration;
 
@@ -83,10 +77,6 @@ public class Doctor {
 
     @Column(name = "recessEndTime")
     private int recessEndTime;
-
-    
-
-    
 
     public int getSlotDuration() {
         return slotDuration;
@@ -140,7 +130,6 @@ public class Doctor {
     @JoinTable(name = "DoctorQualificationMap", joinColumns = @JoinColumn(name = "doctorId"), inverseJoinColumns = @JoinColumn(name = "qualificationId"))
     private Set<Qualification> qualifications;
 
-    
     public Set<Disease> getDiseases() {
         return diseases;
     }
@@ -155,22 +144,6 @@ public class Doctor {
 
     public void setDoctorId(int doctorId) {
         this.doctorId = doctorId;
-    }
-
-    public String getDoctorName() {
-        return doctorName;
-    }
-
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
-    }
-
-    public String getDoctorEmail() {
-        return doctorEmail;
-    }
-
-    public void setDoctorEmail(String doctorEmail) {
-        this.doctorEmail = doctorEmail;
     }
 
     public String getPassword() {
@@ -199,13 +172,11 @@ public class Doctor {
 
     @Override
     public String toString() {
-        return "Doctor [doctorId=" + doctorId + ", doctorName=" + doctorName + ", doctorEmail=" + doctorEmail
+        return "Doctor [doctorId=" + doctorId + ", doctorName=" + firstName + " " + lastName + ", doctorEmail=" + email
                 + ", contactNo=" + contactNo + ", hospital=" + hospital + "]";
     }
 
-    public Doctor() {
-
-    }
+   
 
     public Set<Qualification> getQualifications() {
         return qualifications;
@@ -215,12 +186,20 @@ public class Doctor {
         this.qualifications = qualifications;
     }
 
-    public User getUserId() {
-        return userId;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }
