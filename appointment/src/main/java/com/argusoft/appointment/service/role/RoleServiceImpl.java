@@ -5,13 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import com.argusoft.appointment.dao.role.RoleDao;
 import com.argusoft.appointment.entity.Role;
 import com.argusoft.appointment.utils.customannotations.LogThis;
-import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
-
 import jakarta.transaction.Transactional;
 
 

@@ -82,9 +82,7 @@ public class HospitalController {
 
         return hospitalService.deleteHospitalById(id);
     }
-    public HospitalController(){
-
-    }
+   
     
     
 }

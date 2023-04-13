@@ -29,17 +29,7 @@ public class PersonDaoImpl implements PersonDao {
         return person;
     }
 
-
-    // @LogThis
-    // @Override
-    // public Person deletePersonById(int id) {
-        
-    //     Person person = entityManager.find(Person.class,id);
-        
-    //     entityManager.remove(person);
-    //     return person;
-    // }
-
+ 
     @LogThis
     @Override
     public Person deletePersonById(int id) {
@@ -84,18 +74,10 @@ public class PersonDaoImpl implements PersonDao {
         return query.getResultList();
     }
 
-    // @LogThis
-    // @Override
-    // public Person updatePersonById(int id,Person updatePerson) {
-    //     updatePerson.setPersonId(id);
-    //     Person updatedPerson = entityManager.merge(updatePerson);
-    //     return updatedPerson;
-    // }
-
 
     @LogThis
     @Override
-    public List<Person> getPersonByParam(String paramName,String paramValue) {
+    public <T,V> List<Person> getPersonByParam(String paramName,T paramType,V paramValue) {
         System.out.println("Reached the request here "+paramName+"= = = ="+paramValue);
         String ql = "select u from Person u where u."+paramName+"=:id";
 

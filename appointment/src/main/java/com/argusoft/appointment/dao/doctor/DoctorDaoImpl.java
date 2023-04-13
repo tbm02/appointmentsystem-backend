@@ -10,7 +10,6 @@ import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 
@@ -30,16 +29,6 @@ public class DoctorDaoImpl implements DoctorDao {
         return doctor;
     }
 
-
-    // @LogThis
-    // @Override
-    // public Doctor deleteDoctorById(int id) {
-        
-    //     Doctor doctor = entityManager.find(Doctor.class,id);
-        
-    //     entityManager.remove(doctor);
-    //     return doctor;
-    // }
 
     @LogThis
     @Override
@@ -63,9 +52,9 @@ public class DoctorDaoImpl implements DoctorDao {
         updateDoctor.setDoctorId(id);
 
 
-        Doctor updatedDoctor = entityManager.merge(updateDoctor);
+      
 
-        return updatedDoctor;}
+        return  entityManager.merge(updateDoctor);}
         else{
             throw new NoResultException("Requested Doctor Does not exists");
         }
@@ -76,6 +65,9 @@ public class DoctorDaoImpl implements DoctorDao {
     public Doctor getDoctorById(int id) {
         
         Doctor doctor = entityManager.find(Doctor.class, id);
+        if(doctor == null){
+            throw new NoResultException("Requested Doctor does not exists");
+        }
 
         return doctor;
     }
@@ -86,18 +78,11 @@ public class DoctorDaoImpl implements DoctorDao {
     public List<Doctor> getDoctors() {
         
         TypedQuery<Doctor> query = entityManager.createQuery("from Doctor",Doctor.class);
-        List<Doctor> data = query.getResultList();
-        return data;
+      
+        return query.getResultList();
     }
 
-    // @LogThis
-    // @Override
-    // public Doctor updateDoctorById(int id,Doctor updateDoctor) {
-    //     updateDoctor.setDoctorId(id);
-    //     Doctor updatedDoctor = entityManager.merge(updateDoctor);
-    //     return updatedDoctor;
-    // }
-
+   
 
     @LogThis
     @Override
@@ -108,9 +93,9 @@ public class DoctorDaoImpl implements DoctorDao {
         TypedQuery<Doctor> query = entityManager.createQuery(ql, Doctor.class);
         query.setParameter("id",paramValue);
         
-        List<Doctor> doctorList =  query.getResultList();
+    
 
-        return doctorList;
+        return query.getResultList();
     }
 
 

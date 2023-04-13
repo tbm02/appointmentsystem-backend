@@ -26,20 +26,7 @@ public class HospitalServiceImpl implements HospitalService{
     @Override
     @Transactional
     public Hospital authenticateHospital( String email,  String password) throws UnAuthenticatedException {
-        // TODO Auto-generated method stub
-        
-//         Hospital hospital = hospitalDao.getHospitalByParam("email",email).get(0);
-//         if(hospital == null){
-//             throw new NoResultException("Requested Hos")
-//         }
-//         if(hospital.getUserId().getPassword().equals(password)){
-//             System.out.println("Hospital Found and credentials matched");
-//             return hospital;
-//         }
-//         else{
-//         throw new UnAuthenticatedException("Invalide credenyials");
-//  }       
- 
+
  return null;
     }
 

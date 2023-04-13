@@ -11,6 +11,6 @@ public interface PersonDao {
     public Person getPersonById(int id);
     public Person updatePersonById(int id,Person updatedPerson);
     public Person deletePersonById(int id);  
-    public List<Person> getPersonByParam(String paramName,String paramValue); 
+    public <T,V> List<Person> getPersonByParam(String paramName,T paramType,V paramValue); 
     
 }

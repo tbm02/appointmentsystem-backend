@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -49,6 +50,10 @@ public class Doctor {
     @Column(name = "contactNo")
     @Pattern(regexp = "([+][1-9]{2,3})?([2-9]{1}[0-9]{5}|[789]{1}[0-9]{9})", message = "Please Provide the valid Contact No")
     private String contactNo;
+   
+    @OneToOne
+    @JoinColumn(name = "roleId")
+    private Role role;
 
     @ManyToOne
     @JoinColumn(name = "hospitalId")
@@ -176,8 +181,6 @@ public class Doctor {
                 + ", contactNo=" + contactNo + ", hospital=" + hospital + "]";
     }
 
-   
-
     public Set<Qualification> getQualifications() {
         return qualifications;
     }
@@ -200,6 +203,14 @@ public class Doctor {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }

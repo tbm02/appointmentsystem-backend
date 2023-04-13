@@ -35,14 +35,27 @@ public class Hospital {
     @JsonIgnore
     List<Doctor> doctors;
 
-    @OneToOne
-    @JoinColumn(name = "userId")
-    private User userId;
+    @Column(name = "hospitalAdminEmail")
+    @NotBlank(message = "Please Provide the doctors email as it can not be left emptty")
+    @Pattern(regexp = "[a-z]+([0-9]*)[@][a-z]+[.][a-z]{2,3}", message = "Please Provide the valid email")
+    private String hospitalAdminEmail;
 
-    
+    @Column(name = "hospitalAdminassword")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$", message = "Password must contain atleast one capital charchter, one small character, one digit and one special character and minimum length is 8")
+    private String hospitalAdminassword;
+
+    @Column(name = "hospiatlAdminContactNo")
+    @Pattern(regexp = "([+][1-9]{2,3})?([2-9]{1}[0-9]{5}|[789]{1}[0-9]{9})", message = "Please Provide the valid Contact No")
+    private String hospiatlAdminContactNo;
     public List<Doctor> getDoctors() {
         return doctors;
     }
+
+
+    @OneToOne
+    @JoinColumn(name = "roleId")
+    private Role role;
+    
 
     public void setDoctors(List<Doctor> doctors) {
         this.doctors = doctors;
@@ -54,6 +67,30 @@ public class Hospital {
 
     public void setHospitalId(int hospitalId) {
         this.hospitalId = hospitalId;
+    }
+
+    public String getHospitalAdminEmail() {
+        return hospitalAdminEmail;
+    }
+
+    public void setHospitalAdminEmail(String hospitalAdminEmail) {
+        this.hospitalAdminEmail = hospitalAdminEmail;
+    }
+
+    public String getHospitalAdminassword() {
+        return hospitalAdminassword;
+    }
+
+    public void setHospitalAdminassword(String hospitalAdminassword) {
+        this.hospitalAdminassword = hospitalAdminassword;
+    }
+
+    public String getHospiatlAdminContactNo() {
+        return hospiatlAdminContactNo;
+    }
+
+    public void setHospiatlAdminContactNo(String hospiatlAdminContactNo) {
+        this.hospiatlAdminContactNo = hospiatlAdminContactNo;
     }
 
     public String getHospitalName() {
@@ -79,12 +116,13 @@ public class Hospital {
                 + hospitalAddress + ", hospitalContactNo=" ;
     }
 
-    public User getUserId() {
-        return userId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setRole(Role role) {
+        this.role = role;
     }
+
 
 }

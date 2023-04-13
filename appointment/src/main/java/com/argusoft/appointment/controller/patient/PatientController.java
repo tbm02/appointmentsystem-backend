@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.argusoft.appointment.entity.Patient;
 import com.argusoft.appointment.service.patient.PatientService;
 import com.argusoft.appointment.utils.customannotations.LogThis;
-import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
-import com.argusoft.appointment.utils.request.LoginRequest;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
-import com.argusoft.appointment.utils.responsebody.ResponseError;
 
 @RestController
 @RequestMapping("/api/patient")
@@ -32,11 +28,11 @@ public class PatientController {
 
     @LogThis
     @PostMapping(value = {"","/"})
-    public ResponseEntity<ResponseBodyObj> addNewPatient(@RequestBody Patient patient){
+    public ResponseEntity<ResponseBodyObj<Patient>> addNewPatient(@RequestBody Patient patient){
         
         
-        ResponseBodyObj<Patient> res = new ResponseBodyObj(HttpStatus.OK, "Patient creatded succefully", (Patient) patientService.addPatient(patient));
-        return new ResponseEntity<ResponseBodyObj>(res,HttpStatus.OK);
+        ResponseBodyObj<Patient> res = new ResponseBodyObj<>(HttpStatus.OK, "Patient creatded succefully",  patientService.addPatient(patient));
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
     
@@ -44,38 +40,38 @@ public class PatientController {
 
     @LogThis
     @GetMapping(value = {"","/"})
-    public List<Patient> getAllPatients(){
-        
-        return patientService.getAllPatients();
+    public ResponseEntity<ResponseBodyObj<List<Patient>>> getAllPatients(){
+        ResponseBodyObj<List<Patient>> res = new ResponseBodyObj<>(HttpStatus.OK, "List Of Patients",  patientService.getAllPatients());
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
 
     @LogThis
     @GetMapping("/{id}")
-    public Patient getPatientById(@PathVariable int id ){
+    public ResponseEntity<ResponseBodyObj<Patient>> getPatientById(@PathVariable int id ){
         
         
-        return patientService.getPatientById(id);
+        ResponseBodyObj<Patient> res = new ResponseBodyObj<>(HttpStatus.OK, "Requsted Patient",  patientService.getPatientById(id));
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
 
     @LogThis
     @PutMapping("/{id}")
-    public Patient updatePatient(@RequestBody Patient patient,@PathVariable int id){
+    public ResponseEntity<ResponseBodyObj<Patient>> updatePatient(@RequestBody Patient patient,@PathVariable int id){
         
-        return patientService.updatePatientById(id,patient);
+        ResponseBodyObj<Patient> res = new ResponseBodyObj<>(HttpStatus.OK, "Updated Patient",  patientService.updatePatientById(id,patient));
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
     @LogThis
     @DeleteMapping("/{id}")
-    public Patient deletePatient(@PathVariable int id){
+    public ResponseEntity<ResponseBodyObj<Patient>> deletePatient(@PathVariable int id){
         
 
-        return patientService.deletePatientById(id);
+        ResponseBodyObj<Patient> res = new ResponseBodyObj<>(HttpStatus.OK, "Deleted Patient",  patientService.deletePatientById(id));
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
-    public PatientController(){
-
-    }
-    
+   
    
 }

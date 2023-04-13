@@ -11,7 +11,7 @@ import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.Query;
+
 import jakarta.persistence.TypedQuery;
 
 @Repository

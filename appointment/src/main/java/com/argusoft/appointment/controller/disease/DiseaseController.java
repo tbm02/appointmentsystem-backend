@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.argusoft.appointment.entity.Disease;
 import com.argusoft.appointment.service.disease.DiseaseService;
 import com.argusoft.appointment.utils.customannotations.LogThis;
-import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
-import com.argusoft.appointment.utils.request.LoginRequest;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
-import com.argusoft.appointment.utils.responsebody.ResponseError;
 
 @RestController
 @RequestMapping("/api/disease")
@@ -33,11 +29,11 @@ public class DiseaseController {
 
     @LogThis
     @PostMapping(value = {"","/"})
-    public ResponseEntity<ResponseBodyObj> addDisease(@RequestBody Disease disease){
+    public ResponseEntity<ResponseBodyObj<Disease>> addDisease(@RequestBody Disease disease){
         
         
-        ResponseBodyObj<Disease> res = new ResponseBodyObj(HttpStatus.OK, "Disease creatded succefully", (Disease) diseaseService.addDisease(disease));
-        return new ResponseEntity<ResponseBodyObj>(res,HttpStatus.OK);
+        ResponseBodyObj<Disease> res = new ResponseBodyObj<>(HttpStatus.OK, "Disease creatded succefully",  diseaseService.addDisease(disease));
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
     
@@ -45,38 +41,40 @@ public class DiseaseController {
 
     @LogThis
     @GetMapping(value = {"","/"})
-    public List<Disease> getAllDiseases(){
-        
-        return diseaseService.getAllDiseases();
+    public ResponseEntity<ResponseBodyObj<List<Disease>>> getAllDiseases(){
+        ResponseBodyObj<List<Disease>> res = new ResponseBodyObj<>(HttpStatus.OK, "List Of Diseases",  diseaseService.getAllDiseases());
+        return new ResponseEntity<>(res,HttpStatus.OK);
+       
     }
 
 
     @LogThis
     @GetMapping("/{id}")
-    public Disease getDiseaseById(@PathVariable int id ){
+    public ResponseEntity<ResponseBodyObj<Disease>> getDiseaseById(@PathVariable int id ){
         
+        ResponseBodyObj<Disease> res = new ResponseBodyObj<>(HttpStatus.OK, "Requested Disease ",  diseaseService.getDiseaseById(id));
+        return new ResponseEntity<>(res,HttpStatus.OK);
         
-        return diseaseService.getDiseaseById(id);
     }
 
 
     @LogThis
     @PutMapping("/{id}")
-    public Disease updateDisease(@RequestBody Disease disease,@PathVariable int id){
+    public ResponseEntity<ResponseBodyObj<Disease>> updateDisease(@RequestBody Disease disease,@PathVariable int id){
         
-        return diseaseService.updateDiseaseById(id,disease);
+        ResponseBodyObj<Disease> res = new ResponseBodyObj<>(HttpStatus.OK, "Updated Diseases",  diseaseService.updateDiseaseById(id,disease));
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
     @LogThis
     @DeleteMapping("/{id}")
-    public Disease deleteDisease(@PathVariable int id){
+    public ResponseEntity<ResponseBodyObj<Disease>> deleteDisease(@PathVariable int id){
         
 
-        return diseaseService.deleteDiseaseById(id);
+        ResponseBodyObj<Disease> res = new ResponseBodyObj<>(HttpStatus.OK, "Deleted Diseases",  diseaseService.deleteDiseaseById(id));
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
-    public DiseaseController(){
-
-    }
+ 
     
     
 }

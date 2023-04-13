@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.argusoft.appointment.entity.Person;
 import com.argusoft.appointment.entity.Patient;
-import com.argusoft.appointment.entity.User;
+
 import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
@@ -103,9 +103,7 @@ public class PatientDaoImpl implements PatientDao {
         return patientList;
     }
 
-    public PatientDaoImpl(){
-        // System.out.println("Hii Confirmation from the dao layer ===========");
-    }
+   
     
 
 

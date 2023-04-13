@@ -10,7 +10,6 @@ import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 
@@ -31,15 +30,6 @@ public class AppointmentDaoImpl implements AppointmentDao {
     }
 
 
-    // @LogThis
-    // @Override
-    // public Appointment deleteAppointmentById(int id) {
-        
-    //     Appointment appointment = entityManager.find(Appointment.class,id);
-        
-    //     entityManager.remove(appointment);
-    //     return appointment;
-    // }
 
     @LogThis
     @Override
@@ -90,15 +80,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
         return data;
     }
 
-    // @LogThis
-    // @Override
-    // public Appointment updateAppointmentById(int id,Appointment updateAppointment) {
-    //     updateAppointment.setAppointmentId(id);
-    //     Appointment updatedAppointment = entityManager.merge(updateAppointment);
-    //     return updatedAppointment;
-    // }
-
-
+ 
     @LogThis
     @Override
     public <K,V> List<Appointment> getAppointmentByParam(K paramName,V paramValue) {
