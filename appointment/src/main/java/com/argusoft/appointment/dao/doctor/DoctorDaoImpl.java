@@ -9,6 +9,7 @@ import com.argusoft.appointment.entity.Doctor;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
@@ -30,16 +31,45 @@ public class DoctorDaoImpl implements DoctorDao {
     }
 
 
+    // @LogThis
+    // @Override
+    // public Doctor deleteDoctorById(int id) {
+        
+    //     Doctor doctor = entityManager.find(Doctor.class,id);
+        
+    //     entityManager.remove(doctor);
+    //     return doctor;
+    // }
+
     @LogThis
     @Override
     public Doctor deleteDoctorById(int id) {
-        
-        Doctor doctor = entityManager.find(Doctor.class,id);
-        
-        entityManager.remove(doctor);
-        return doctor;
+
+        Doctor doctor = entityManager.find(Doctor.class, id);
+        if (doctor != null) {
+            entityManager.remove(doctor);
+            return doctor;
+        } else {
+            throw new NoResultException("Requested Doctor does not exists");
+        }
     }
 
+    @LogThis
+    @Override
+    public Doctor updateDoctorById(int id, Doctor updateDoctor) {
+
+        Doctor doctor = entityManager.find(Doctor.class, id);
+        if(doctor != null){
+        updateDoctor.setDoctorId(id);
+
+
+        Doctor updatedDoctor = entityManager.merge(updateDoctor);
+
+        return updatedDoctor;}
+        else{
+            throw new NoResultException("Requested Doctor Does not exists");
+        }
+    }
 
     @LogThis
     @Override
@@ -60,13 +90,13 @@ public class DoctorDaoImpl implements DoctorDao {
         return data;
     }
 
-    @LogThis
-    @Override
-    public Doctor updateDoctorById(int id,Doctor updateDoctor) {
-        updateDoctor.setDoctorId(id);
-        Doctor updatedDoctor = entityManager.merge(updateDoctor);
-        return updatedDoctor;
-    }
+    // @LogThis
+    // @Override
+    // public Doctor updateDoctorById(int id,Doctor updateDoctor) {
+    //     updateDoctor.setDoctorId(id);
+    //     Doctor updatedDoctor = entityManager.merge(updateDoctor);
+    //     return updatedDoctor;
+    // }
 
 
     @LogThis

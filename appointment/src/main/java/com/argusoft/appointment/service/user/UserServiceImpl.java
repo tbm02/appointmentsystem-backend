@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User authenticateUser( String email,  String password) throws UnAuthenticatedException {
-        // TODO Auto-generated method stub
+      
         
         User user = userDao.getUserByParam("email",email).get(0);
         if(user.getPassword().equals(password)){
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User signUpUser(User user) throws DuplicateKeyException{
-        if((user.getId() != 0 && userDao.getUserById(user.getId()) != null) ){
+        if((user.getUserId() != 0 && userDao.getUserById(user.getUserId()) != null) ){
             throw new DuplicateKeyException("user with same id already exist");
         }
         return userDao.addUser(user);

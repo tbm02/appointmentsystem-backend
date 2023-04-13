@@ -1,7 +1,9 @@
 package com.argusoft.appointment.utils.exceptionhandlers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -11,18 +13,20 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
+import com.argusoft.appointment.utils.responsebody.ErrorObj;
 import com.argusoft.appointment.utils.responsebody.ResponseError;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
     
     @ExceptionHandler(value = org.springframework.web.bind.MethodArgumentNotValidException.class)
-    public ResponseEntity<ResponseError> validateUser(org.springframework.web.bind.MethodArgumentNotValidException e) {
-        List<String> errors = new ArrayList<>();
+    public ResponseEntity<ResponseError<ErrorObj<String,String>>> validateUser(org.springframework.web.bind.MethodArgumentNotValidException e) {
+        List<ErrorObj<String,String>> errors = new ArrayList<>();
        for(ObjectError err:e.getAllErrors()){
-        errors.add(err.getDefaultMessage());
+        System.out.println(err.getCodes()+"==================================");
+        errors.add(new ErrorObj<String,String>(err.getCode(),err.getDefaultMessage()));
        }
-        ResponseError error = new ResponseError(HttpStatus.BAD_REQUEST, "Please Match Validations",errors);
+        ResponseError<ErrorObj<String,String>> error = new ResponseError(HttpStatus.BAD_REQUEST, "Please Match Validations",errors);
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
 
     }

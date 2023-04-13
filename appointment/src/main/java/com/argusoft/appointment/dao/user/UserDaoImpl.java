@@ -68,7 +68,7 @@ public class UserDaoImpl implements UserDao {
 
         User user = entityManager.find(User.class, id);
         if(user != null){
-        updateUser.setId(id);
+        updateUser.setUserId(id);
 
 
         User updatedUser = entityManager.merge(updateUser);

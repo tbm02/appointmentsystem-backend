@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.argusoft.appointment.entity.Consumer;
 import com.argusoft.appointment.entity.Patient;
 import com.argusoft.appointment.entity.User;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
 
@@ -26,11 +28,10 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public Patient addPatient(Patient patient) {
        
-        // System.out.println(patient.getUser());
-        // patient.setUser();
-        User tempUser = entityManager.find(User.class, patient.getUser().getId());
-        // System.out.println(patient);
-        patient.setUser(tempUser);
+     
+        Consumer tempConsumer = entityManager.find(Consumer.class, patient.getConsumer().getConsumerId());
+        
+        patient.setConsumer(tempConsumer);
         entityManager.persist(patient);
         return patient;
     }
@@ -42,11 +43,12 @@ public class PatientDaoImpl implements PatientDao {
         
         Patient patient = getPatientById(id);
 
-        // TypedQuery<Patient> query = entityManager.createQuery("delete from Patient where PatientId =:id",Patient.class);
-        // query.setParameter("id",id);
-        // query.executeUpdate();
+        if(patient!=null){
         entityManager.remove(patient);
-        return patient;
+        return patient;}
+        else{
+            throw new NoResultException("Can not delete the patient as it does not exits");
+        }
     }
 
 
@@ -73,9 +75,14 @@ public class PatientDaoImpl implements PatientDao {
     @LogThis
     @Override
     public Patient updatePatientById(int id,Patient updatePatient) {
+        Patient temPatient = entityManager.find(Patient.class, id);
+        if(temPatient != null){
         updatePatient.setPatientId(id);
         Patient updatedPatient = entityManager.merge(updatePatient);
-        return updatedPatient;
+        return updatedPatient;}
+        else{
+            throw new NoResultException("Can not update the Requested patient as it does not exists");
+        }
     }
 
 
@@ -90,14 +97,14 @@ public class PatientDaoImpl implements PatientDao {
 
         TypedQuery<Patient> query = entityManager.createQuery(ql, Patient.class);
         query.setParameter("id",paramValue);
-        // System.out.println(query.);
+        
         List<Patient> patientList =  query.getResultList();
 
         return patientList;
     }
 
     public PatientDaoImpl(){
-        System.out.println("Hii Confirmation from the dao layer ===========");
+        // System.out.println("Hii Confirmation from the dao layer ===========");
     }
     
 

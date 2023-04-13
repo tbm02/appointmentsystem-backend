@@ -10,6 +10,7 @@ import com.argusoft.appointment.entity.Hospital;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 
+import jakarta.persistence.NoResultException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -27,23 +28,26 @@ public class HospitalServiceImpl implements HospitalService{
     public Hospital authenticateHospital( String email,  String password) throws UnAuthenticatedException {
         // TODO Auto-generated method stub
         
-        Hospital hospital = hospitalDao.getHospitalByParam("email",email).get(0);
-        if(hospital.getPassword().equals(password)){
-            System.out.println("Hospital Found and credentials matched");
-            return hospital;
-        }
-        else{
-        throw new UnAuthenticatedException("Invalide credenyials");
- }       
+//         Hospital hospital = hospitalDao.getHospitalByParam("email",email).get(0);
+//         if(hospital == null){
+//             throw new NoResultException("Requested Hos")
+//         }
+//         if(hospital.getUserId().getPassword().equals(password)){
+//             System.out.println("Hospital Found and credentials matched");
+//             return hospital;
+//         }
+//         else{
+//         throw new UnAuthenticatedException("Invalide credenyials");
+//  }       
  
-//  return null;
+ return null;
     }
 
     @LogThis
     @Override
     @Transactional
     public Hospital deleteHospitalById(int id) {
-        // TODO Auto-generated method stub
+      
         return hospitalDao.deleteHospitalById(id);
     }
 
@@ -78,7 +82,7 @@ public class HospitalServiceImpl implements HospitalService{
     @Override
     @Transactional
     public Hospital updateHospitalById(int id,Hospital hospital) {
-        // TODO Auto-generated method stub
+       
         return hospitalDao.updateHospitalById(id, hospital);
     }
     

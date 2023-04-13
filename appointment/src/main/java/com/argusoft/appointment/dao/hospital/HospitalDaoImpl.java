@@ -9,6 +9,7 @@ import com.argusoft.appointment.entity.Hospital;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
 
@@ -31,15 +32,31 @@ public class HospitalDaoImpl implements HospitalDao{
     @LogThis
     @Override
     public Hospital deleteHospitalById(int id) {
-        
-        Hospital hospital = entityManager.find(Hospital.class,id);
-        // TypedQuery<Hospital> query = entityManager.createQuery("delete from Hospital u where u.id = :id",Hospital.class);
-        // query.setParameter("id",id);
 
-        // query.executeUpdate();
-        // Hospital hospital = entityManager.
-        entityManager.remove(hospital);
-        return hospital;
+        Hospital hospital = entityManager.find(Hospital.class, id);
+        if (hospital != null) {
+            entityManager.remove(hospital);
+            return hospital;
+        } else {
+            throw new NoResultException("Requested Hospital does not exists");
+        }
+    }
+
+    @LogThis
+    @Override
+    public Hospital updateHospitalById(int id, Hospital updateHospital) {
+
+        Hospital hospital = entityManager.find(Hospital.class, id);
+        if(hospital != null){
+        updateHospital.setHospitalId(id);
+
+
+        Hospital updatedHospital = entityManager.merge(updateHospital);
+
+        return updatedHospital;}
+        else{
+            throw new NoResultException("Requested Hospital Does not exists");
+        }
     }
 
 
@@ -62,13 +79,7 @@ public class HospitalDaoImpl implements HospitalDao{
         return data;
     }
 
-    @LogThis
-    @Override
-    public Hospital updateHospitalById(int id,Hospital updateHospital) {
-        updateHospital.setHospitalId(id);
-        Hospital updatedHospital = entityManager.merge(updateHospital);
-        return updatedHospital;
-    }
+    
 
 
     @LogThis

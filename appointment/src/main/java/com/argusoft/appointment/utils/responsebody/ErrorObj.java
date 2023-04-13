@@ -15,6 +15,12 @@ public class ErrorObj<K,V> {
     public void setMessage(V message) {
         this.message = message;
     }
+    public ErrorObj(K key, V message) {
+        this.key = key;
+        this.message = message;
+    }
+    public ErrorObj() {
+    }
 
 
     

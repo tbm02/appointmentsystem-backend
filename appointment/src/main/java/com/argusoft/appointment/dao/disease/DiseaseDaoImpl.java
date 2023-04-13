@@ -9,6 +9,7 @@ import com.argusoft.appointment.entity.Disease;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
 @Repository
@@ -27,24 +28,22 @@ public class DiseaseDaoImpl implements DiseaseDao{
     }
 
 
-    @LogThis
-    @Override
-    public Disease deleteDiseaseById(int id) {
+    // @LogThis
+    // @Override
+    // public Disease deleteDiseaseById(int id) {
         
-        Disease disease = entityManager.find(Disease.class,id);
+    //     Disease disease = entityManager.find(Disease.class,id);
         
-        entityManager.remove(disease);
-        return disease;
-    }
+    //     entityManager.remove(disease);
+    //     return disease;
+    // }
 
 
     @LogThis
     @Override
     public Disease getDiseaseById(int id) {
         
-        Disease disease = entityManager.find(Disease.class, id);
-
-        return disease;
+        return entityManager.find(Disease.class, id);
     }
 
 
@@ -53,17 +52,43 @@ public class DiseaseDaoImpl implements DiseaseDao{
     public List<Disease> getDiseases() {
         
         TypedQuery<Disease> query = entityManager.createQuery("from Disease",Disease.class);
-        List<Disease> data = query.getResultList();
-        return data;
+        return query.getResultList();
+    }
+    @LogThis
+    @Override
+    public Disease deleteDiseaseById(int id) {
+
+        Disease disease = entityManager.find(Disease.class, id);
+        if (disease != null) {
+            entityManager.remove(disease);
+            return disease;
+        } else {
+            throw new NoResultException("Requested Disease does not exists");
+        }
     }
 
     @LogThis
     @Override
-    public Disease updateDiseaseById(int id,Disease updateDisease) {
+    public Disease updateDiseaseById(int id, Disease updateDisease) {
+
+        Disease disease = entityManager.find(Disease.class, id);
+        if(disease != null){
         updateDisease.setDiseaseId(id);
-        Disease updatedDisease = entityManager.merge(updateDisease);
-        return updatedDisease;
+
+
+        return entityManager.merge(updateDisease);}
+        else{
+            throw new NoResultException("Requested Disease Does not exists");
+        }
     }
+
+    // @LogThis
+    // @Override
+    // public Disease updateDiseaseById(int id,Disease updateDisease) {
+    //     updateDisease.setDiseaseId(id);
+    //     Disease updatedDisease = entityManager.merge(updateDisease);
+    //     return updatedDisease;
+    // }
 
 
     @LogThis
@@ -75,9 +100,7 @@ public class DiseaseDaoImpl implements DiseaseDao{
         TypedQuery<Disease> query = entityManager.createQuery(ql, Disease.class);
         query.setParameter("id",paramValue);
         
-        List<Disease> diseaseList =  query.getResultList();
-
-        return diseaseList;
+        return query.getResultList();
     }
 
 

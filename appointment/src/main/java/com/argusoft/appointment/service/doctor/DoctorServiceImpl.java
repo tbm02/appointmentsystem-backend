@@ -26,18 +26,18 @@ public class DoctorServiceImpl implements DoctorService{
     @Override
     @Transactional
     public Doctor authenticateDoctor( String email,  String password) throws UnAuthenticatedException {
-        // TODO Auto-generated method stub
+//         // TODO Auto-generated method stub
         
-        Doctor doctor = doctorDao.getDoctorByParam("email",email).get(0);
-        if(doctor.getPassword().equals(password)){
-            System.out.println("Doctor Found and credentials matched");
-            return doctor;
-        }
-        else{
-        throw new UnAuthenticatedException("Invalide credenyials");
- }       
+//         Doctor doctor = doctorDao.getDoctorByParam("email",email).get(0);
+//         if(doctor.getPassword().equals(password)){
+//             System.out.println("Doctor Found and credentials matched");
+//             return doctor;
+//         }
+//         else{
+//         throw new UnAuthenticatedException("Invalide credenyials");
+//  }       
  
-//  return null;
+ return null;
     }
 
     @LogThis
