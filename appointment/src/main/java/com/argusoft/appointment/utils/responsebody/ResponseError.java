@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 public class ResponseError <T>{
     private HttpStatus status;
     private String message;
-    private T ErrorObj;
+    private T errorObj;
     public HttpStatus getStatus() {
         return status;
     }
@@ -27,13 +27,15 @@ public class ResponseError <T>{
     public ResponseError(HttpStatus status, String message, T errorObj) {
         this.status = status;
         this.message = message;
-        ErrorObj = errorObj;
+        this.errorObj = errorObj;
     }
     public T getErrorObj() {
-        return ErrorObj;
+        return errorObj;
     }
     public void setErrorObj(T errorObj) {
-        ErrorObj = errorObj;
+        this.errorObj = errorObj;
     }
+
     
+
 }

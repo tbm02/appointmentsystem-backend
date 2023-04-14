@@ -50,7 +50,14 @@ public class PersonDaoImpl implements PersonDao {
         Person person = entityManager.find(Person.class, id);
         if(person != null){
         updatePerson.setPersonId(id);
+        if(updatePerson.getAddress()==null){
+            updatePerson.setAddress(person.getAddress());
 
+        }
+        if(updatePerson.getRole()==null){
+            updatePerson.setRole(person.getRole());
+
+        }
 
         return entityManager.merge(updatePerson);}
         else{

@@ -3,6 +3,7 @@ package com.argusoft.appointment.controller.disease;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,8 @@ import com.argusoft.appointment.service.disease.DiseaseService;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/disease")
 public class DiseaseController {
@@ -29,7 +32,8 @@ public class DiseaseController {
 
     @LogThis
     @PostMapping(value = {"","/"})
-    public ResponseEntity<ResponseBodyObj<Disease>> addDisease(@RequestBody Disease disease){
+    public ResponseEntity<ResponseBodyObj<Disease>> addDisease(@RequestBody @Valid Disease disease)
+    throws DuplicateKeyException, org.springframework.web.bind.MethodArgumentNotValidException{
         
         
         ResponseBodyObj<Disease> res = new ResponseBodyObj<>(HttpStatus.OK, "Disease creatded succefully",  diseaseService.addDisease(disease));

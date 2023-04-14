@@ -2,6 +2,7 @@ package com.argusoft.appointment.controller.doctor;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +32,8 @@ public class DoctorController {
 
     @LogThis
     @PostMapping(value = {"","/"})
-    public ResponseEntity<ResponseBodyObj<Doctor>> signUpDoctor(@RequestBody @Valid Doctor doctor){
+    public ResponseEntity<ResponseBodyObj<Doctor>> signUpDoctor(@RequestBody @Valid Doctor doctor)
+    throws DuplicateKeyException, org.springframework.web.bind.MethodArgumentNotValidException{
         
         
         ResponseBodyObj<Doctor> res = new ResponseBodyObj<>(HttpStatus.OK, "Doctor creatded succefully", doctorService.signUpDoctor(doctor));
@@ -70,7 +72,8 @@ public class DoctorController {
 
     @LogThis
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseBodyObj<Doctor>> updateDoctor(@RequestBody @Valid Doctor doctor,@PathVariable int id){
+    public ResponseEntity<ResponseBodyObj<Doctor>> updateDoctor(@RequestBody @Valid Doctor doctor,@PathVariable int id)
+    throws  org.springframework.web.bind.MethodArgumentNotValidException{
         
         ResponseBodyObj<Doctor> res = new ResponseBodyObj<>(HttpStatus.OK, "Doctor Updated succefully", doctorService.updateDoctorById(id,doctor));
 
@@ -86,24 +89,7 @@ public class DoctorController {
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
-    // @LogThis
-    // @GetMapping("/disease/{id}")
-    // public ResponseEntity<ResponseBodyObj<Doctor>> findAllDiseasesForDoctor(@PathVariable int id){
-        
-    //     ResponseBodyObj<Doctor> res = new ResponseBodyObj<>(HttpStatus.OK, "Doctor removed succefully", doctorService.deleteDoctorById(id));
-
-    //     return new ResponseEntity<>(res,HttpStatus.OK);
-    // }
-
-
-    // @LogThis
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<ResponseBodyObj<Doctor>> deleteDoctor(@PathVariable int id){
-        
-    //     ResponseBodyObj<Doctor> res = new ResponseBodyObj<>(HttpStatus.OK, "Doctor removed succefully", doctorService.deleteDoctorById(id));
-
-    //     return new ResponseEntity<>(res,HttpStatus.OK);
-    // }
+   
     
     
 }

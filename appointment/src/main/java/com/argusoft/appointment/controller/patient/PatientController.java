@@ -3,6 +3,7 @@ package com.argusoft.appointment.controller.patient;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,8 @@ import com.argusoft.appointment.service.patient.PatientService;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/patient")
 public class PatientController {
@@ -28,7 +31,8 @@ public class PatientController {
 
     @LogThis
     @PostMapping(value = {"","/"})
-    public ResponseEntity<ResponseBodyObj<Patient>> addNewPatient(@RequestBody Patient patient){
+    public ResponseEntity<ResponseBodyObj<Patient>> addNewPatient(@RequestBody @Valid Patient patient)
+    throws DuplicateKeyException, org.springframework.web.bind.MethodArgumentNotValidException{
         
         
         ResponseBodyObj<Patient> res = new ResponseBodyObj<>(HttpStatus.OK, "Patient creatded succefully",  patientService.addPatient(patient));
@@ -58,7 +62,8 @@ public class PatientController {
 
     @LogThis
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseBodyObj<Patient>> updatePatient(@RequestBody Patient patient,@PathVariable int id){
+    public ResponseEntity<ResponseBodyObj<Patient>> updatePatient(@RequestBody @Valid Patient patient,@PathVariable int id)
+    throws  org.springframework.web.bind.MethodArgumentNotValidException{
         
         ResponseBodyObj<Patient> res = new ResponseBodyObj<>(HttpStatus.OK, "Updated Patient",  patientService.updatePatientById(id,patient));
         return new ResponseEntity<>(res,HttpStatus.OK);

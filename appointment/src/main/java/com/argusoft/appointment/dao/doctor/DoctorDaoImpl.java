@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.argusoft.appointment.entity.Doctor;
+import com.argusoft.appointment.entity.Hospital;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
@@ -25,6 +26,11 @@ public class DoctorDaoImpl implements DoctorDao {
     public Doctor addDoctor(Doctor doctor) {
        
         
+        Hospital tempHospital = entityManager.find(Hospital.class, doctor.getHospital().getHospitalId());
+        if(tempHospital == null){
+            throw new NoResultException("Requested Hospital does not exists in records");
+        }
+        doctor.setHospital(tempHospital);
         entityManager.persist(doctor);
         return doctor;
     }

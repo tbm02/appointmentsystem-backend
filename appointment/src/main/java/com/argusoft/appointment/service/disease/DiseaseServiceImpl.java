@@ -26,7 +26,7 @@ public class DiseaseServiceImpl implements DiseaseService{
     @Override
     @Transactional
     public Disease deleteDiseaseById(int id) {
-        // TODO Auto-generated method stub
+       
         return diseaseDao.deleteDiseaseById(id);
     }
 
@@ -34,7 +34,7 @@ public class DiseaseServiceImpl implements DiseaseService{
     @Override
     @Transactional
     public List<Disease> getAllDiseases() {
-        // TODO Auto-generated method stub
+       
         return diseaseDao.getDiseases();
     }
 
@@ -43,7 +43,7 @@ public class DiseaseServiceImpl implements DiseaseService{
     @Override
     @Transactional
     public Disease getDiseaseById(int id) {
-        // TODO Auto-generated method stub
+       
         return diseaseDao.getDiseaseById(id);
     }
 

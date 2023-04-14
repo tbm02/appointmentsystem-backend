@@ -30,7 +30,9 @@ public class PatientDaoImpl implements PatientDao {
        
      
         Person tempPerson = entityManager.find(Person.class, patient.getPerson().getPersonId());
-        
+        if(tempPerson == null){
+            throw new NoResultException("Requested Person does not exists in records");
+        }
         patient.setPerson(tempPerson);
         entityManager.persist(patient);
         return patient;

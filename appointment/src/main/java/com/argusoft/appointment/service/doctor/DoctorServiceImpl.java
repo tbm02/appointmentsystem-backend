@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.argusoft.appointment.dao.doctor.DoctorDao;
+import com.argusoft.appointment.dao.role.RoleDao;
 import com.argusoft.appointment.entity.Doctor;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
@@ -21,22 +22,15 @@ public class DoctorServiceImpl implements DoctorService{
     @Autowired
     private DoctorDao doctorDao;
 
+    @Autowired
+    private RoleDao roleDao;
+
 
     @LogThis
     @Override
     @Transactional
     public Doctor authenticateDoctor( String email,  String password) throws UnAuthenticatedException {
-//         // TODO Auto-generated method stub
-        
-//         Doctor doctor = doctorDao.getDoctorByParam("email",email).get(0);
-//         if(doctor.getPassword().equals(password)){
-//             System.out.println("Doctor Found and credentials matched");
-//             return doctor;
-//         }
-//         else{
-//         throw new UnAuthenticatedException("Invalide credenyials");
-//  }       
- 
+
  return null;
     }
 
@@ -44,7 +38,7 @@ public class DoctorServiceImpl implements DoctorService{
     @Override
     @Transactional
     public Doctor deleteDoctorById(int id) {
-        // TODO Auto-generated method stub
+       
         return doctorDao.deleteDoctorById(id);
     }
 
@@ -52,7 +46,7 @@ public class DoctorServiceImpl implements DoctorService{
     @Override
     @Transactional
     public List<Doctor> getAllDoctors() {
-        // TODO Auto-generated method stub
+       
         return doctorDao.getDoctors();
     }
 
@@ -61,7 +55,7 @@ public class DoctorServiceImpl implements DoctorService{
     @Override
     @Transactional
     public Doctor getDoctorById(int id) {
-        // TODO Auto-generated method stub
+       
         return doctorDao.getDoctorById(id);
     }
 
@@ -70,7 +64,7 @@ public class DoctorServiceImpl implements DoctorService{
     @Override
     @Transactional
     public Doctor signUpDoctor(Doctor doctor) {
-        
+        doctor.setRole(roleDao.getRoleByParam("roleName","Doctor").get(0));
         return doctorDao.addDoctor(doctor);
     }
 
@@ -79,7 +73,7 @@ public class DoctorServiceImpl implements DoctorService{
     @Override
     @Transactional
     public Doctor updateDoctorById(int id,Doctor doctor) {
-        // TODO Auto-generated method stub
+       
         return doctorDao.updateDoctorById(id, doctor);
     }
     

@@ -2,6 +2,8 @@ package com.argusoft.appointment.entity;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -23,9 +25,11 @@ public class Disease {
     
 
     @ManyToMany(mappedBy = "diseases")
+    @JsonIgnore
     private Set<Doctor> doctors;
 
     @ManyToMany(mappedBy = "diseases")
+    @JsonIgnore
     private Set<Patient> patients;
     
     public Set<Doctor> getDoctors() {

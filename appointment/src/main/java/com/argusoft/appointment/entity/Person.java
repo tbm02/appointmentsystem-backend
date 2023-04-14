@@ -1,16 +1,24 @@
 package com.argusoft.appointment.entity;
 
 import java.sql.Date;
-import java.util.List;
+import java.util.Set;
 
+import com.argusoft.appointment.utils.customserializers.PersonPatientSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
@@ -19,6 +27,7 @@ public class Person {
 
     @Id
     @Column(name = "personId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int personId;
 
     @Column(name = "firstName")
@@ -34,14 +43,16 @@ public class Person {
     private Role role;
 
     @Column(name = "dob")
+    @NotNull(message = "Please Provide the Date of birth")
     private Date dob;
 
     @Column(name = "address")
     @NotBlank(message = "Please provide person address as it can not be empty")
     private String address;
 
-    @OneToMany(mappedBy = "person")
-    private List<Patient> patients;
+    @OneToMany(mappedBy = "person",cascade = {CascadeType.ALL})
+    @JsonSerialize(using = PersonPatientSerializer.class)
+    private Set<Patient> patients;
 
     @Column(name = "email")
     @NotBlank(message = "Please Provide the doctors email as it can not be left emptty")
@@ -100,12 +111,44 @@ public class Person {
         this.address = address;
     }
 
-    public List<Patient> getPatients() {
+    public Set<Patient> getPatients() {
         return patients;
     }
 
-    public void setPatients(List<Patient> patients) {
+    public void setPatients(Set<Patient> patients) {
         this.patients = patients;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
     }
 
    

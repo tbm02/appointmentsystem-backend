@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.argusoft.appointment.dao.hospital.HospitalDao;
+import com.argusoft.appointment.dao.role.RoleDao;
 import com.argusoft.appointment.entity.Hospital;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
 
-import jakarta.persistence.NoResultException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -20,6 +20,9 @@ public class HospitalServiceImpl implements HospitalService{
     }
     @Autowired
     private HospitalDao hospitalDao;
+
+    @Autowired
+    private RoleDao roleDao;
 
 
     @LogThis
@@ -42,7 +45,7 @@ public class HospitalServiceImpl implements HospitalService{
     @Override
     @Transactional
     public List<Hospital> getAllHospitals() {
-        // TODO Auto-generated method stub
+        
         return hospitalDao.getHospitals();
     }
 
@@ -51,7 +54,7 @@ public class HospitalServiceImpl implements HospitalService{
     @Override
     @Transactional
     public Hospital getHospitalById(int id) {
-        // TODO Auto-generated method stub
+       
         return hospitalDao.getHospitalById(id);
     }
 
@@ -60,7 +63,7 @@ public class HospitalServiceImpl implements HospitalService{
     @Override
     @Transactional
     public Hospital signUpHospital(Hospital hospital) {
-        
+        hospital.setRole(roleDao.getRoleByParam("roleName","HospitalAdmin").get(0));
         return hospitalDao.addHospital(hospital);
     }
 

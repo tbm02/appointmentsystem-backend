@@ -4,6 +4,8 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -18,12 +20,15 @@ import jakarta.validation.constraints.Pattern;
 public class Patient {
     @Id
     @Column(name = "patientId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int patientId;
 
     @Column(name = "firstName")
+    @NotBlank(message = "Please Prvide first name")
     private String firstName;
 
     @Column(name = "lastName")
+    @NotBlank(message = "Please Prvide last name")
     private String lastName;
 
     @Column(name = "contactNo")

@@ -82,15 +82,6 @@ public class DiseaseDaoImpl implements DiseaseDao{
         }
     }
 
-    // @LogThis
-    // @Override
-    // public Disease updateDiseaseById(int id,Disease updateDisease) {
-    //     updateDisease.setDiseaseId(id);
-    //     Disease updatedDisease = entityManager.merge(updateDisease);
-    //     return updatedDisease;
-    // }
-
-
     @LogThis
     @Override
     public List<Disease> getDiseaseByParam(String paramName,String paramValue) {

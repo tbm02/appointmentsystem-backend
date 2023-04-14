@@ -52,9 +52,12 @@ public class PersonController {
 
     @LogThis
     @GetMapping(value = { "", "/" })
-    public List<Person> getAllPersons() {
+    public ResponseEntity<ResponseBodyObj<List<Person>>> getAllPersons() {
 
-        return personService.getAllPersons();
+        List<Person> persons = personService.getAllPersons();
+        ResponseBodyObj<List<Person>> res = new ResponseBodyObj<>(HttpStatus.OK, "Authenticated Success", persons);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+
     }
 
     @LogThis
@@ -69,16 +72,21 @@ public class PersonController {
 
     @LogThis
     @PutMapping("/{id}")
-    public Person updatePerson(@RequestBody @Valid Person person, @PathVariable int id) {
+    public ResponseEntity<ResponseBodyObj<Person>> updatePerson(@RequestBody @Valid Person person, @PathVariable int id) {
 
-        return personService.updatePersonById(id, person);
+        Person updatedPerson =  personService.updatePersonById(id, person);
+        ResponseBodyObj<Person> res = new ResponseBodyObj<>(HttpStatus.OK, "Updated Person", updatedPerson);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+
     }
 
     @LogThis
     @DeleteMapping("/{id}")
-    public Person deletePerson(@PathVariable int id) {
+    public ResponseEntity<ResponseBodyObj<Person>> deletePerson(@PathVariable int id) {
 
-        return personService.deletePersonById(id);
+        Person deletedPerson =  personService.deletePersonById(id);
+        ResponseBodyObj<Person> res = new ResponseBodyObj<>(HttpStatus.OK, "Updated Person", deletedPerson);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
 }

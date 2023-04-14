@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
@@ -20,6 +22,7 @@ public class Hospital {
 
     @Id
     @Column(name = "hospitalId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY  )
     private int hospitalId;
 
     @Column(name = "hospitalName")
@@ -28,6 +31,7 @@ public class Hospital {
     private String hospitalName;
 
     @Column(name = "hospitalAddress")
+    @NotBlank(message = "Please Provide the valid hospiatl Address as it can not be empty")
     private String hospitalAddress;
 
    
@@ -40,13 +44,15 @@ public class Hospital {
     @Pattern(regexp = "[a-z]+([0-9]*)[@][a-z]+[.][a-z]{2,3}", message = "Please Provide the valid email")
     private String hospitalAdminEmail;
 
-    @Column(name = "hospitalAdminassword")
+    @Column(name = "hospitalAdminPassword")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$", message = "Password must contain atleast one capital charchter, one small character, one digit and one special character and minimum length is 8")
-    private String hospitalAdminassword;
+    private String hospitalAdminPassword;
 
-    @Column(name = "hospiatlAdminContactNo")
+    @Column(name = "hospitalAdminContactNo")
     @Pattern(regexp = "([+][1-9]{2,3})?([2-9]{1}[0-9]{5}|[789]{1}[0-9]{9})", message = "Please Provide the valid Contact No")
-    private String hospiatlAdminContactNo;
+    private String hospitalAdminContactNo;
+
+
     public List<Doctor> getDoctors() {
         return doctors;
     }
@@ -77,25 +83,34 @@ public class Hospital {
         this.hospitalAdminEmail = hospitalAdminEmail;
     }
 
-    public String getHospitalAdminassword() {
-        return hospitalAdminassword;
+    
+
+    public String getHospitalAdminPassword() {
+        return hospitalAdminPassword;
     }
 
-    public void setHospitalAdminassword(String hospitalAdminassword) {
-        this.hospitalAdminassword = hospitalAdminassword;
+    public void setHospitalAdminpassword(String hospitalAdminPassword) {
+        this.hospitalAdminPassword = hospitalAdminPassword;
     }
 
-    public String getHospiatlAdminContactNo() {
-        return hospiatlAdminContactNo;
+    public String getHospitalAdminContactNo() {
+        return hospitalAdminContactNo;
     }
 
-    public void setHospiatlAdminContactNo(String hospiatlAdminContactNo) {
-        this.hospiatlAdminContactNo = hospiatlAdminContactNo;
+    public void setHospitalAdminContactNo(String hospitalAdminContactNo) {
+        this.hospitalAdminContactNo = hospitalAdminContactNo;
     }
 
     public String getHospitalName() {
         return hospitalName;
-    }
+        }
+    
+        public void setHospitalAdminassword(String hospitalAdminassword) {
+            this.hospitalAdminPassword = hospitalAdminassword;
+        }
+    
+     
+    
 
     public void setHospitalName(String hospitalName) {
         this.hospitalName = hospitalName;
@@ -113,7 +128,7 @@ public class Hospital {
     @Override
     public String toString() {
         return "Hospital [hospitalId=" + hospitalId + ", hospitalName=" + hospitalName + ", hospitalAddress="
-                + hospitalAddress + ", hospitalContactNo=" ;
+                + hospitalAddress + ", hospitalContactNo=" +hospitalAdminContactNo + "hospitalEmail = "+hospitalAdminEmail;
     }
 
     public Role getRole() {

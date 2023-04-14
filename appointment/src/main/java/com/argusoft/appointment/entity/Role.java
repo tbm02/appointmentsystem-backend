@@ -2,14 +2,14 @@ package com.argusoft.appointment.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 
 @Entity
 @Table(name = "Role")
 public class Role {
-
+    @Id
     @Column(name = "roleId  ")
     private int roleId;
 
@@ -44,7 +44,9 @@ public class Role {
         this.roleId = roleId;
         this.roleName = roleName;
     }
-
+    public Role(){
+        
+    }
 
     
 }

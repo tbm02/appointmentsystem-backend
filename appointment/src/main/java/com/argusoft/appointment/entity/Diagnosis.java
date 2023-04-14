@@ -2,6 +2,8 @@ package com.argusoft.appointment.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -13,6 +15,7 @@ import jakarta.persistence.Table;
 public class Diagnosis {
     @Id
     @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
@@ -20,15 +23,15 @@ public class Diagnosis {
     private Doctor doctor;
 
     @ManyToOne
-    @JoinColumn(name = "doctorId")
+    @JoinColumn(name = "patientId")
     private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "diseaseId")
-    private Patient disease;
+    private Disease disease;
 
 
-    @Column(name = "remarks")
+    @Column(name = "remark")
     private String remarks;
 
 
@@ -62,12 +65,12 @@ public class Diagnosis {
     }
 
 
-    public Patient getDisease() {
+    public Disease getDisease() {
         return disease;
     }
 
 
-    public void setDisease(Patient disease) {
+    public void setDisease(Disease disease) {
         this.disease = disease;
     }
 
@@ -75,7 +78,7 @@ public class Diagnosis {
     public String getRemarks() {
         return remarks;
     }
-
+    
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;

@@ -2,8 +2,14 @@ package com.argusoft.appointment.entity;
 
 import java.sql.Time;
 import java.util.Set;
+
+import com.argusoft.appointment.utils.customserializers.DoctorSpecializationSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -20,6 +26,7 @@ public class Doctor {
 
     @Id
     @Column(name = "doctorId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int doctorId;
 
     @Column(name = "firstName")
@@ -66,22 +73,24 @@ public class Doctor {
     private Set<Disease> diseases;
 
     @Column(name = "slotDuration")
+    // @NotBlank(message = "Please Provide the slotdurarion")
     private int slotDuration;
 
     @Column(name = "bufferTime")
     private int bufferTime;
 
     @Column(name = "startTime")
+
     private Time startTime;
 
     @Column(name = "endTime")
-    private int endTime;
+    private Time endTime;
 
     @Column(name = "recessStartTime")
-    private int recessStartTime;
+    private Time recessStartTime;
 
     @Column(name = "recessEndTime")
-    private int recessEndTime;
+    private Time recessEndTime;
 
     public int getSlotDuration() {
         return slotDuration;
@@ -107,33 +116,34 @@ public class Doctor {
         this.startTime = startTime;
     }
 
-    public int getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(int endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 
-    public int getRecessStartTime() {
+    public Time getRecessStartTime() {
         return recessStartTime;
     }
 
-    public void setRecessStartTime(int recessStartTime) {
+    public void setRecessStartTime(Time recessStartTime) {
         this.recessStartTime = recessStartTime;
     }
 
-    public int getRecessEndTime() {
+    public Time getRecessEndTime() {
         return recessEndTime;
     }
 
-    public void setRecessEndTime(int recessEndTime) {
+    public void setRecessEndTime(Time recessEndTime) {
         this.recessEndTime = recessEndTime;
     }
 
     @ManyToMany
-    @JoinTable(name = "DoctorQualificationMap", joinColumns = @JoinColumn(name = "doctorId"), inverseJoinColumns = @JoinColumn(name = "qualificationId"))
-    private Set<Qualification> qualifications;
+    @JoinTable(name = "DoctorSpecializationMap", joinColumns = @JoinColumn(name = "doctorId"), inverseJoinColumns = @JoinColumn(name = "specializationId"))
+    @JsonSerialize(using = DoctorSpecializationSerializer.class)
+    private Set<Specialization> specializations;
 
     public Set<Disease> getDiseases() {
         return diseases;
@@ -181,12 +191,12 @@ public class Doctor {
                 + ", contactNo=" + contactNo + ", hospital=" + hospital + "]";
     }
 
-    public Set<Qualification> getQualifications() {
-        return qualifications;
+    public Set<Specialization> getSpecializations() {
+        return specializations;
     }
 
-    public void setQualifications(Set<Qualification> qualifications) {
-        this.qualifications = qualifications;
+    public void setSpecializations(Set<Specialization> specializations) {
+        this.specializations = specializations;
     }
 
     public String getFirstName() {
