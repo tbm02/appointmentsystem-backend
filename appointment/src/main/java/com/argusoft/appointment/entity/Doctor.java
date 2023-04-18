@@ -92,6 +92,9 @@ public class Doctor {
     @Column(name = "recessEndTime")
     private Time recessEndTime;
 
+    @Column(name = "gender")
+    private String gender;
+
     public int getSlotDuration() {
         return slotDuration;
     }
@@ -221,6 +224,14 @@ public class Doctor {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
 }
