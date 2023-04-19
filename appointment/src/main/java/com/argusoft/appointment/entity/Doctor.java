@@ -1,9 +1,7 @@
 package com.argusoft.appointment.entity;
 
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
 import java.util.Set;
 
 import com.argusoft.appointment.utils.customserializers.DoctorSpecializationSerializer;
@@ -21,52 +19,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+
 
 @Entity
 @Table(name = "Doctor")
-public class Doctor implements UserDetails {
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
+public class Doctor {
 
-        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-
-        return authorities;
-    }
-
-    @Override
-    public String getUsername() {
-
-        return this.email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return true;
-    }
     @Id
     @Column(name = "doctorId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,6 +33,9 @@ public class Doctor implements UserDetails {
     @Column(name = "firstName")
     @NotBlank(message = "Please provide doctors name as it can not be empty")
     private String firstName;
+
+    public Doctor() {
+    }
 
     public String getLastName() {
         return lastName;
@@ -88,32 +49,12 @@ public class Doctor implements UserDetails {
     @NotBlank(message = "Please provide doctors name as it can not be empty")
     private String lastName;
 
-    @Column(name = "email")
-    @NotBlank(message = "Please Provide the doctors email as it can not be left emptty")
-    @Pattern(regexp = "[a-z]+([0-9]*)[@][a-z]+[.][a-z]{2,3}", message = "Please Provide the valid email")
-    private String email;
 
-    @Column(name = "password")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$", message = "Password must contain atleast one capital charchter, one small character, one digit and one special character and minimum length is 8")
-    private String password;
-
-    @Column(name = "contactNo")
-    @Pattern(regexp = "([+][1-9]{2,3})?([2-9]{1}[0-9]{5}|[789]{1}[0-9]{9})", message = "Please Provide the valid Contact No")
-    private String contactNo;
-   
-    @OneToOne
-    @JoinColumn(name = "roleId")
-    private Role role;
 
     @ManyToOne
     @JoinColumn(name = "hospitalId")
     private Hospital hospital;
 
-    @ManyToMany
-    @JoinTable(name = "DoctorDiseaseMap", joinColumns = @JoinColumn(name = "doctorId"), inverseJoinColumns = @JoinColumn(name = "diseaseId")
-
-    )
-    private Set<Disease> diseases;
 
     @Column(name = "slotDuration")
     // @NotBlank(message = "Please Provide the slotdurarion")
@@ -137,6 +78,11 @@ public class Doctor implements UserDetails {
 
     @Column(name = "gender")
     private String gender;
+
+    @OneToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
 
     public int getSlotDuration() {
         return slotDuration;
@@ -191,36 +137,21 @@ public class Doctor implements UserDetails {
     @JsonSerialize(using = DoctorSpecializationSerializer.class)
     private Set<Specialization> specializations;
 
-    public Set<Disease> getDiseases() {
-        return diseases;
-    }
 
-    public void setDiseases(Set<Disease> diseases) {
-        this.diseases = diseases;
-    }
-
-    public int getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(int doctorId) {
+    public Doctor(int doctorId, String firstName, String lastName, Hospital hospital, int slotDuration, int bufferTime, Time startTime, Time endTime, Time recessStartTime, Time recessEndTime, String gender, User user, Set<Specialization> specializations) {
         this.doctorId = doctorId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getContactNo() {
-        return contactNo;
-    }
-
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.hospital = hospital;
+        this.slotDuration = slotDuration;
+        this.bufferTime = bufferTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.recessStartTime = recessStartTime;
+        this.recessEndTime = recessEndTime;
+        this.gender = gender;
+        this.user = user;
+        this.specializations = specializations;
     }
 
     public Hospital getHospital() {
@@ -231,11 +162,23 @@ public class Doctor implements UserDetails {
         this.hospital = hospital;
     }
 
-    @Override
-    public String toString() {
-        return "Doctor [doctorId=" + doctorId + ", doctorName=" + firstName + " " + lastName + ", doctorEmail=" + email
-                + ", contactNo=" + contactNo + ", hospital=" + hospital + "]";
+    public User getUser() {
+        return user;
     }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(int doctorId) {
+        this.doctorId = doctorId;
+    }
+
+
 
     public Set<Specialization> getSpecializations() {
         return specializations;
@@ -253,21 +196,7 @@ public class Doctor implements UserDetails {
         this.firstName = firstName;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     public String getGender() {
         return gender;

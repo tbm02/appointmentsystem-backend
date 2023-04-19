@@ -23,7 +23,7 @@ public class DiagnosisDoctorSerializer extends StdSerializer<Set<Doctor>>  {
     public void serialize(Set<Doctor> value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         final Set<DiagnosisDoctor> tempValueSet = new HashSet<>();
         value.forEach(doctor->{
-            tempValueSet.add(new DiagnosisDoctor(doctor.getDoctorId(), doctor.getFirstName(), doctor.getContactNo()));
+            tempValueSet.add(new DiagnosisDoctor(doctor.getDoctorId(), doctor.getFirstName(), doctor.getUser().getContactNo()));
         });
         
     }

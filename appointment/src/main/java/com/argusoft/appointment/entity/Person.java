@@ -30,46 +30,8 @@ import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "Person")
-public class Person implements UserDetails {
+public class Person {
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-
-        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-
-        return authorities;
-    }
-
-    @Override
-    public String getUsername() {
-
-        return this.email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return true;
-    }
 
     @Id
     @Column(name = "personId")
@@ -85,8 +47,8 @@ public class Person implements UserDetails {
     private String lastName;
 
     @OneToOne
-    @JoinColumn(name = "roleId")
-    private Role role;
+    @JoinColumn(name = "userId")
+    private User user;
 
     @Column(name = "dob")
     @NotNull(message = "Please Provide the Date of birth")
@@ -100,18 +62,26 @@ public class Person implements UserDetails {
     @JsonSerialize(using = PersonPatientSerializer.class)
     private Set<Patient> patients;
 
-    @Column(name = "email")
-    @NotBlank(message = "Please Provide the doctors email as it can not be left emptty")
-    @Pattern(regexp = "[a-z]+([0-9]*)[@][a-z]+[.][a-z]{2,3}", message = "Please Provide the valid email")
-    private String email;
+    public Person(int personId, String firstName, String lastName, User user, Date dob, String address, Set<Patient> patients) {
+        this.personId = personId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.user = user;
+        this.dob = dob;
+        this.address = address;
+        this.patients = patients;
+    }
 
-    @Column(name = "password")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$", message = "Password must contain atleast one capital charchter, one small character, one digit and one special character and minimum length is 8")
-    private String password;
+    public Person() {
+    }
 
-    @Column(name = "contactNo")
-    @Pattern(regexp = "([+][1-9]{2,3})?([2-9]{1}[0-9]{5}|[789]{1}[0-9]{9})", message = "Please Provide the valid Contact No")
-    private String contactNo;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getPersonId() {
         return personId;
@@ -161,36 +131,8 @@ public class Person implements UserDetails {
         this.patients = patients;
     }
 
-    public Role getRole() {
-        return role;
-    }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getContactNo() {
-        return contactNo;
-    }
-
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
-    }
 
 }
