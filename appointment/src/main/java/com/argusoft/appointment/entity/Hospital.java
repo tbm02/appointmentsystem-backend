@@ -1,5 +1,7 @@
 package com.argusoft.appointment.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,10 +17,57 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "Hospital")
-public class Hospital {
+public class Hospital implements UserDetails {
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
     @Id
     @Column(name = "hospitalId")
@@ -42,11 +91,11 @@ public class Hospital {
     @Column(name = "hospitalAdminEmail")
     @NotBlank(message = "Please Provide the doctors email as it can not be left emptty")
     @Pattern(regexp = "[a-z]+([0-9]*)[@][a-z]+[.][a-z]{2,3}", message = "Please Provide the valid email")
-    private String hospitalAdminEmail;
+    private String email;
 
     @Column(name = "hospitalAdminPassword")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$", message = "Password must contain atleast one capital charchter, one small character, one digit and one special character and minimum length is 8")
-    private String hospitalAdminPassword;
+    private String password;
 
     @Column(name = "hospitalAdminContactNo")
     @Pattern(regexp = "([+][1-9]{2,3})?([2-9]{1}[0-9]{5}|[789]{1}[0-9]{9})", message = "Please Provide the valid Contact No")
@@ -75,22 +124,17 @@ public class Hospital {
         this.hospitalId = hospitalId;
     }
 
-    public String getHospitalAdminEmail() {
-        return hospitalAdminEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setHospitalAdminEmail(String hospitalAdminEmail) {
-        this.hospitalAdminEmail = hospitalAdminEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    
-
-    public String getHospitalAdminPassword() {
-        return hospitalAdminPassword;
-    }
 
     public void setHospitalAdminpassword(String hospitalAdminPassword) {
-        this.hospitalAdminPassword = hospitalAdminPassword;
+        this.password = hospitalAdminPassword;
     }
 
     public String getHospitalAdminContactNo() {
@@ -106,7 +150,7 @@ public class Hospital {
         }
     
         public void setHospitalAdminassword(String hospitalAdminassword) {
-            this.hospitalAdminPassword = hospitalAdminassword;
+            this.password = hospitalAdminassword;
         }
     
      
@@ -128,7 +172,7 @@ public class Hospital {
     @Override
     public String toString() {
         return "Hospital [hospitalId=" + hospitalId + ", hospitalName=" + hospitalName + ", hospitalAddress="
-                + hospitalAddress + ", hospitalContactNo=" +hospitalAdminContactNo + "hospitalEmail = "+hospitalAdminEmail;
+                + hospitalAddress + ", hospitalContactNo=" +hospitalAdminContactNo + "hospitalEmail = "+email;
     }
 
     public Role getRole() {

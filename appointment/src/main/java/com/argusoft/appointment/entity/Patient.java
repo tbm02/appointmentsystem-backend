@@ -18,6 +18,7 @@ import jakarta.validation.constraints.Pattern;
 @Entity
 @Table(name = "Patient")
 public class Patient {
+
     @Id
     @Column(name = "patientId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

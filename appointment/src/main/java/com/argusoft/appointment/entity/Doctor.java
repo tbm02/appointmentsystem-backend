@@ -1,6 +1,9 @@
 package com.argusoft.appointment.entity;
 
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import com.argusoft.appointment.utils.customserializers.DoctorSpecializationSerializer;
@@ -19,11 +22,51 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "Doctor")
-public class Doctor {
+public class Doctor implements UserDetails {
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
+        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return true;
+    }
     @Id
     @Column(name = "doctorId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
