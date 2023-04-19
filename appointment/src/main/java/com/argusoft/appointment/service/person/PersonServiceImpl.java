@@ -80,7 +80,7 @@ public class PersonServiceImpl implements PersonService {
             newPatient.setDob(person.getDob());
             newPatient.setPerson(addedPerson);
             patientDao.addPatient(newPatient);
-
+            
             return addedPerson;
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,7 +1,14 @@
 package com.argusoft.appointment.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.argusoft.appointment.utils.customserializers.PersonPatientSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +30,46 @@ import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "Person")
-public class Person {
+public class Person implements UserDetails {
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
     @Id
     @Column(name = "personId")
@@ -50,7 +96,7 @@ public class Person {
     @NotBlank(message = "Please provide person address as it can not be empty")
     private String address;
 
-    @OneToMany(mappedBy = "person",cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "person", cascade = { CascadeType.ALL })
     @JsonSerialize(using = PersonPatientSerializer.class)
     private Set<Patient> patients;
 
@@ -66,8 +112,6 @@ public class Person {
     @Column(name = "contactNo")
     @Pattern(regexp = "([+][1-9]{2,3})?([2-9]{1}[0-9]{5}|[789]{1}[0-9]{9})", message = "Please Provide the valid Contact No")
     private String contactNo;
-
- 
 
     public int getPersonId() {
         return personId;
@@ -92,8 +136,6 @@ public class Person {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    
 
     public Date getDob() {
         return dob;
@@ -151,5 +193,4 @@ public class Person {
         this.contactNo = contactNo;
     }
 
-   
 }

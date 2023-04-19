@@ -57,7 +57,7 @@ public class PersonController {
     public ResponseEntity<ResponseBodyObj<List<Person>>> getAllPersons() {
 
         List<Person> persons = personService.getAllPersons();
-        ResponseBodyObj<List<Person>> res = new ResponseBodyObj<>(HttpStatus.OK, "Authenticated Success", persons);
+        ResponseBodyObj<List<Person>> res = new ResponseBodyObj<>(HttpStatus.OK, "Lit of Persons", persons);
         return new ResponseEntity<>(res, HttpStatus.OK);
 
     }
