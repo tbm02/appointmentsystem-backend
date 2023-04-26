@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.argusoft.appointment.dao.patient.PatientDao;
 import com.argusoft.appointment.dao.person.PersonDao;
 import com.argusoft.appointment.dao.role.RoleDao;
+import com.argusoft.appointment.dao.user.UserDao;
 import com.argusoft.appointment.entity.Patient;
 import com.argusoft.appointment.entity.Person;
 import com.argusoft.appointment.entity.Role;
@@ -25,6 +26,10 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private PersonDao personDao;
+
+    @Autowired
+    private UserDao userDao;
+
 
     @Autowired
     private PatientDao patientDao;
@@ -70,13 +75,14 @@ public class PersonServiceImpl implements PersonService {
     public Person signUpPerson(Person person) {
         try {
             Role role = roleDao.getRoleByParam("roleName", "SystemUser").get(0);
-            person.setRole(role);
+            person.getUser().setRole(role);
+            userDao.addUser(person.getUser());
             Person addedPerson = personDao.addPerson(person);
             Patient newPatient = new Patient();
             newPatient.setFirstName(person.getFirstName());
             newPatient.setLastName(person.getLastName());
-            newPatient.setEmail(person.getEmail());
-            newPatient.setContactNo(person.getContactNo());
+            newPatient.setEmail(person.getUser().getEmail());
+            newPatient.setContactNo(person.getUser().getContactNo());
             newPatient.setDob(person.getDob());
             newPatient.setPerson(addedPerson);
             patientDao.addPatient(newPatient);

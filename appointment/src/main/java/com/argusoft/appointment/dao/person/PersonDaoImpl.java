@@ -54,8 +54,8 @@ public class PersonDaoImpl implements PersonDao {
             updatePerson.setAddress(person.getAddress());
 
         }
-        if(updatePerson.getRole()==null){
-            updatePerson.setRole(person.getRole());
+        if(updatePerson.getUser().getRole()==null){
+            updatePerson.getUser().setRole(person.getUser().getRole());
 
         }
 

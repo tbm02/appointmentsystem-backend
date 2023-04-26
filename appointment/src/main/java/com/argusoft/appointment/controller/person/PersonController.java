@@ -35,7 +35,6 @@ public class PersonController {
     @PostMapping(value = { "", "/" })
     public ResponseEntity<ResponseBodyObj<Person>> signUpPerson(@RequestBody @Valid Person person)
             throws DuplicateKeyException, org.springframework.web.bind.MethodArgumentNotValidException {
-
         ResponseBodyObj<Person> res = new ResponseBodyObj<>(HttpStatus.OK, "Person creatded succefully",
                 personService.signUpPerson(person));
         return new ResponseEntity<>(res, HttpStatus.OK);

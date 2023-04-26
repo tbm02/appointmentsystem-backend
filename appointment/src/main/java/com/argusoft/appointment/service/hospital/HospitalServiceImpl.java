@@ -63,7 +63,7 @@ public class HospitalServiceImpl implements HospitalService{
     @Override
     @Transactional
     public Hospital signUpHospital(Hospital hospital) {
-        hospital.setRole(roleDao.getRoleByParam("roleName","HospitalAdmin").get(0));
+        hospital.getUser().setRole(roleDao.getRoleByParam("roleName","HospitalAdmin").get(0));
         return hospitalDao.addHospital(hospital);
     }
 

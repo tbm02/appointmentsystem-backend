@@ -24,21 +24,21 @@ public class Disease {
     private String diseaseName;
     
 
-    @ManyToMany(mappedBy = "diseases")
-    @JsonIgnore
-    private Set<Doctor> doctors;
+    // @ManyToMany(mappedBy = "diseases")
+    // @JsonIgnore
+    // private Set<Doctor> doctors;
 
     @ManyToMany(mappedBy = "diseases")
     @JsonIgnore
     private Set<Patient> patients;
     
-    public Set<Doctor> getDoctors() {
-        return doctors;
-    }
+    // public Set<Doctor> getDoctors() {
+    //     return doctors;
+    // }
 
-    public void setDoctors(Set<Doctor> doctors) {
-        this.doctors = doctors;
-    }
+    // public void setDoctors(Set<Doctor> doctors) {
+    //     this.doctors = doctors;
+    // }
 
     public int getDiseaseId() {
         return diseaseId;

@@ -1,9 +1,0 @@
-SET FOREIGN_KEY_CHECKS = 0;
-
-ALTER TABLE Hospital ADD CONSTRAINT fk_hospital_user FOREIGN KEY(userId) REFERENCES User(userId);
-
-ALTER TABLE Doctor ADD CONSTRAINT fk_doctor_user FOREIGN KEY(userId) REFERENCES User(userId);
-
-ALTER TABLE Person ADD CONSTRAINT fk_person_user FOREIGN KEY(userId) REFERENCES User(userId);
-
-SET FOREIGN_KEY_CHECKS = 1;

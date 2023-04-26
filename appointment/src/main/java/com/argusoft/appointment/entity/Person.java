@@ -131,6 +131,12 @@ public class Person {
         this.patients = patients;
     }
 
+    @Override
+    public String toString() {
+        return "Person [personId=" + personId + ", firstName=" + firstName + ", lastName=" + lastName + ", user=" + user
+                + ", dob=" + dob + ", address=" + address + "]";
+    }
+
 
 
 

@@ -64,7 +64,7 @@ public class DoctorServiceImpl implements DoctorService{
     @Override
     @Transactional
     public Doctor signUpDoctor(Doctor doctor) {
-        doctor.setRole(roleDao.getRoleByParam("roleName","Doctor").get(0));
+        doctor.getUser().setRole(roleDao.getRoleByParam("roleName","Doctor").get(0));
         return doctorDao.addDoctor(doctor);
     }
 

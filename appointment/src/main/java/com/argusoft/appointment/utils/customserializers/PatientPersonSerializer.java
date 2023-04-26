@@ -21,7 +21,7 @@ public class PatientPersonSerializer extends StdSerializer<Set<Person>>  {
     public void serialize(Set<Person> value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         final Set<PatientPerson> tempValueSet = new HashSet<>();
         value.forEach(person->{
-            tempValueSet.add(new PatientPerson(person.getFirstName(),person.getLastName(),person.getEmail()));
+            tempValueSet.add(new PatientPerson(person.getFirstName(),person.getLastName(),person.getUser().getEmail()));
         });
         
     }

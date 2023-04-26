@@ -45,8 +45,8 @@ public class HospitalDaoImpl implements HospitalDao {
         Hospital hospital = entityManager.find(Hospital.class, id);
         if (hospital != null) {
             updateHospital.setHospitalId(id);
-            if (updateHospital.getRole() == null) {
-                updateHospital.setRole(hospital.getRole());
+            if (updateHospital.getUser().getRole() == null) {
+                updateHospital.getUser().setRole(hospital.getUser().getRole());
 
             }
 
