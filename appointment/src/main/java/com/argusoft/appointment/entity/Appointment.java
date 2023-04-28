@@ -3,6 +3,10 @@ package com.argusoft.appointment.entity;
 import java.sql.Date;
 import java.sql.Time;
 
+import com.argusoft.appointment.utils.customserializers.AppointmentDoctorSerializer;
+import com.argusoft.appointment.utils.customserializers.AppointmentPatientSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -20,11 +24,14 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "doctorId")
+    // @JsonSerialize(using = )
+    @JsonSerialize(using = AppointmentDoctorSerializer.class)
     private Doctor doctor;
 
     @ManyToOne
     @JoinColumn(name = "patientId")
-    private Doctor patient;
+    @JsonSerialize(using = AppointmentPatientSerializer.class)
+    private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "diseaseId")
@@ -37,7 +44,7 @@ public class Appointment {
     private Date appointmentDate;
 
     @Column(name = "status")
-    private String status;
+    private String status = "Pending";
 
     public int getAppointmentId() {
         return appointmentId;
@@ -55,11 +62,11 @@ public class Appointment {
         this.doctor = doctor;
     }
 
-    public Doctor getPatient() {
+    public Patient getPatient() {
         return patient;
     }
 
-    public void setPatient(Doctor patient) {
+    public void setPatient(Patient patient) {
         this.patient = patient;
     }
 

@@ -61,6 +61,13 @@ public class DoctorController {
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
+    @LogThis
+    @GetMapping(value = {"/hospital/{id}"})
+    public ResponseEntity<ResponseBodyObj<List<Doctor>>> getAllDoctorsByHospital(@PathVariable int id){
+        
+        ResponseBodyObj<List<Doctor>> res = new ResponseBodyObj<>(HttpStatus.OK, "List Of DOctors", doctorService.getAllDoctorsByHospital(id));
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
 
     @LogThis
     @GetMapping("/{id}")

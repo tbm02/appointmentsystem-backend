@@ -11,6 +11,6 @@ public interface DoctorDao {
     public Doctor getDoctorById(int id);
     public Doctor updateDoctorById(int id,Doctor updatedDoctor);
     public Doctor deleteDoctorById(int id);  
-    public List<Doctor> getDoctorByParam(String paramName,String paramValue); 
+    public <T> List<Doctor> getDoctorByParam(String paramName,T paramValue); 
     
 }

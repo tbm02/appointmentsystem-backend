@@ -49,6 +49,7 @@ public class HospitalController {
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
+    
 
     @LogThis
     @GetMapping("/{id}")

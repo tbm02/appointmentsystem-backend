@@ -83,7 +83,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
  
     @LogThis
     @Override
-    public <K,V> List<Appointment> getAppointmentByParam(K paramName,V paramValue) {
+    public <T> List<Appointment> getAppointmentByParam(String paramName,T paramValue) {
         System.out.println("Reached the request here "+paramName+"= = = ="+paramValue);
         String ql = "select u from Appointment u where u."+paramName+"=:id";
 

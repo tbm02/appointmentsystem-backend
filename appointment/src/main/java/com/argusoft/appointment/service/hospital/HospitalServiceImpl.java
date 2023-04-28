@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.argusoft.appointment.dao.hospital.HospitalDao;
 import com.argusoft.appointment.dao.role.RoleDao;
+import com.argusoft.appointment.dao.user.UserDao;
 import com.argusoft.appointment.entity.Hospital;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 import com.argusoft.appointment.utils.customexceptions.UnAuthenticatedException;
@@ -23,6 +24,9 @@ public class HospitalServiceImpl implements HospitalService{
 
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private UserDao userDao;
 
 
     @LogThis
@@ -64,6 +68,7 @@ public class HospitalServiceImpl implements HospitalService{
     @Transactional
     public Hospital signUpHospital(Hospital hospital) {
         hospital.getUser().setRole(roleDao.getRoleByParam("roleName","HospitalAdmin").get(0));
+        userDao.addUser(hospital.getUser());
         return hospitalDao.addHospital(hospital);
     }
 

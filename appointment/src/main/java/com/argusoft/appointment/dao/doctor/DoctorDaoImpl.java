@@ -11,6 +11,7 @@ import com.argusoft.appointment.utils.customannotations.LogThis;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 
@@ -56,6 +57,7 @@ public class DoctorDaoImpl implements DoctorDao {
         Doctor doctor = entityManager.find(Doctor.class, id);
         if(doctor != null){
         updateDoctor.setDoctorId(id);
+        updateDoctor.setUser(doctor.getUser());
 
 
       
@@ -92,13 +94,13 @@ public class DoctorDaoImpl implements DoctorDao {
 
     @LogThis
     @Override
-    public List<Doctor> getDoctorByParam(String paramName,String paramValue) {
+    public <T> List<Doctor> getDoctorByParam(String paramName,T paramValue) {
         System.out.println("Reached the request here "+paramName+"= = = ="+paramValue);
-        String ql = "select u from Doctor u where u."+paramName+"=:id";
-
+        String ql = "SELECT d FROM Doctor d WHERE d."+paramName+" = :id";
+        System.out.println(ql);
         TypedQuery<Doctor> query = entityManager.createQuery(ql, Doctor.class);
+        // Query query = entityManager.createNativeQuery(ql);
         query.setParameter("id",paramValue);
-        
     
 
         return query.getResultList();

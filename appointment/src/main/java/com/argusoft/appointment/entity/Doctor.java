@@ -4,9 +4,12 @@ import java.sql.Time;
 
 import java.util.Set;
 
+import javax.print.Doc;
+
 import com.argusoft.appointment.utils.customserializers.DoctorSpecializationSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -49,7 +52,8 @@ public class Doctor {
     @NotBlank(message = "Please provide doctors name as it can not be empty")
     private String lastName;
 
-
+    @Column(name = "imageLink")
+    private String imageLink = "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000";
 
     @ManyToOne
     @JoinColumn(name = "hospitalId")
@@ -79,7 +83,7 @@ public class Doctor {
     @Column(name = "gender")
     private String gender;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private User user;
 
@@ -178,7 +182,7 @@ public class Doctor {
         this.doctorId = doctorId;
     }
 
-
+    
 
     public Set<Specialization> getSpecializations() {
         return specializations;
@@ -204,6 +208,23 @@ public class Doctor {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
+    @Override
+    public String toString() {
+        return "Doctor [doctorId=" + doctorId + ", firstName=" + firstName + ", lastName=" + lastName + ", imageLink="
+                + imageLink + ", hospital=" + hospital + ", slotDuration=" + slotDuration + ", bufferTime=" + bufferTime
+                + ", startTime=" + startTime + ", endTime=" + endTime + ", recessStartTime=" + recessStartTime
+                + ", recessEndTime=" + recessEndTime + ", gender=" + gender + ", user=" + user + ", specializations="
+                + specializations + "]";
     }
 
 }
