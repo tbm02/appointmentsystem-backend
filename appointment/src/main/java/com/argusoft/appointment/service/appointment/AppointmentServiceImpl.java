@@ -28,7 +28,8 @@ public class AppointmentServiceImpl implements AppointmentService{
     @Transactional
     @Override
     public Appointment createNewAppointment(Appointment appointment) {
-        // appointment.setPatient(patientDao.getPatientById(appointment.getPatient().getPatientId()));
+        appointment.setPatient(patientDao.getPatientById(appointment.getPatient().getPatientId()));
+        appointment.setDoctor(doctorDao.getDoctorById(appointment.getDoctor().getDoctorId()));
         return appointmentDao.addAppointment(appointment);
     }
 

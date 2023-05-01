@@ -28,7 +28,7 @@ public class Hospital {
 
     @Column(name = "hospitalName")
     @NotBlank(message = "Please Provide the valid hospiatl email as it can not be empty")
-    @Pattern(regexp = "([a-zA-Z]{5,})",message = "Please Provide the valid name min length is 5")
+    // @Pattern(regexp = "([a-zA-Z]{5,})",message = "Please Provide the valid name min length is 5")
     private String hospitalName;
 
     @Column(name = "hospitalAddress")
