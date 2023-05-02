@@ -1,6 +1,7 @@
 package com.argusoft.appointment.service.appointment;
 
 import java.util.List;
+import java.util.Map;
 
 import com.argusoft.appointment.entity.Appointment;
 
@@ -12,6 +13,7 @@ public interface AppointmentService {
     public List<Appointment> getAppointmentByHospitalId(int hospitalId);
     public List<Appointment> getAppointmentByPersonId(int personId);
     public List<Appointment> getAppointmentByPatientId(int patientId);
+    public List<Appointment> getAppointmentsByQueryParams(Map<String,String> queries);
     public Appointment updateAppointmentById(int id, Appointment appointment);
     public Appointment deleteAppointmentById(int id);
 }

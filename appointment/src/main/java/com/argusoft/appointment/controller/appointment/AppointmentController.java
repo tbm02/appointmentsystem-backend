@@ -1,6 +1,7 @@
 package com.argusoft.appointment.controller.appointment;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.argusoft.appointment.entity.Appointment;
@@ -122,5 +124,14 @@ public class AppointmentController {
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
  
+
+    @LogThis
+    @GetMapping(value = {"query","/query"})
+    public ResponseEntity<ResponseBodyObj<List<Appointment>>> getApppointmentsByQueryParams(@RequestParam Map<String,String> allParams){
+        ResponseBodyObj<List<Appointment>> res = new ResponseBodyObj<>(HttpStatus.OK, "List Of Appointments",  AppointmentService.getAppointmentsByQueryParams(allParams));
+        return new ResponseEntity<>(res,HttpStatus.OK);
+       
+    }
+
  
 }

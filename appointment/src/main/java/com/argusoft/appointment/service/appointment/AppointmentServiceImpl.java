@@ -1,6 +1,7 @@
 package com.argusoft.appointment.service.appointment;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,6 +90,13 @@ public class AppointmentServiceImpl implements AppointmentService{
     @Override
     public Appointment updateAppointmentById(int id, Appointment appointment) {
         return appointmentDao.updateAppointmentById(id, appointment);
+    }
+
+    @LogThis
+    @Transactional
+    @Override
+    public List<Appointment> getAppointmentsByQueryParams (Map<String,String> queries) {
+        return appointmentDao.getAppointmentByQueryParam(queries);
     }
     
     

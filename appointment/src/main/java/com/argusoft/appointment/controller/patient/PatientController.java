@@ -61,6 +61,15 @@ public class PatientController {
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
+    @LogThis
+    @GetMapping("/person/{id}")
+    public ResponseEntity<ResponseBodyObj<List<Patient>>> getPatientByPersonId(@PathVariable int id ){
+        
+        
+        ResponseBodyObj<List<Patient>> res = new ResponseBodyObj<>(HttpStatus.OK, "Requsted Patient",  patientService.getAllPatientsByPersonId(id));
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
+
 
     @LogThis
     @PutMapping("/{id}")

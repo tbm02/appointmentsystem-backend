@@ -1,6 +1,7 @@
 package com.argusoft.appointment.dao.appointment;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -92,6 +93,38 @@ public class AppointmentDaoImpl implements AppointmentDao {
         
         List<Appointment> appointmentList =  query.getResultList();
 
+        return appointmentList;
+    }
+
+    @LogThis
+    @Override
+    public List<Appointment> getAppointmentByQueryParam(Map<String,String> queries) {
+        // System.out.println("Reached the request here "+paramName+"= = = ="+paramValue);
+        String whereSegment = "";
+        int counter = 0;
+        for(String key:queries.keySet()){
+            counter++;
+            if(whereSegment.equals("")){
+                whereSegment += ""+ key+"= ?"+counter;
+            }
+            else{
+                whereSegment += " and "+key+"=?"+counter;
+            }
+            
+        }
+        counter = 0;
+        String ql = "FROM Appointment WHERE "+whereSegment;
+        System.out.println(ql);
+
+        TypedQuery<Appointment> query = entityManager.createQuery(ql, Appointment.class);
+       
+        for(String value:queries.values()){
+            query.setParameter(++counter,value);
+            System.out.println(query.getParameterValue(counter));
+            // System.out.println(counter+""+value);
+        }
+        List<Appointment> appointmentList =  query.getResultList();
+        // System.out.println(appointmentList);
         return appointmentList;
     }
 

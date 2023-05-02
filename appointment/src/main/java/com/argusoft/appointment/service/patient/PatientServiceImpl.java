@@ -45,7 +45,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     @Transactional
     public List<Patient> getAllPatientsByPersonId(int personId) {
-        return patientDao.getPatientByParam("personId", String.valueOf(personId));
+        return patientDao.getPatientByParam("person.personId", String.valueOf(personId));
     }
 
 
