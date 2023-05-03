@@ -25,6 +25,7 @@ public class DoctorSpecializationSerializer extends StdSerializer<Set<Specializa
     @Override
     public void serialize(Set<Specialization> value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         final Set<String> tempValues = new HashSet<>();
+        System.out.println("Serializing");
         value.forEach(specialization->{
             tempValues.add(specialization.getSpecializationName());
         });
