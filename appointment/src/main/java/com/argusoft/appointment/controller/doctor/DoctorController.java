@@ -68,7 +68,7 @@ public class DoctorController {
         ResponseBodyObj<List<Doctor>> res = new ResponseBodyObj<>(HttpStatus.OK, "List Of DOctors", doctorService.getAllDoctorsByHospital(id));
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
-
+    // Adding a comment
     @LogThis
     @GetMapping("/{id}")
     public ResponseEntity<ResponseBodyObj<Doctor>> getDoctorById(@PathVariable int id ){
