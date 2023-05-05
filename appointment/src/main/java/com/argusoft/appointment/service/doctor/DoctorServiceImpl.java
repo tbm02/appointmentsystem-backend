@@ -1,6 +1,7 @@
 package com.argusoft.appointment.service.doctor;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,6 +88,12 @@ public class DoctorServiceImpl implements DoctorService{
     public Doctor updateDoctorById(int id,Doctor doctor) {
        
         return doctorDao.updateDoctorById(id, doctor);
+    }
+    @LogThis
+    @Transactional
+    @Override
+    public List<Doctor> getDoctorsByQueryParams (Map<String,String> queries) {
+        return doctorDao.getDoctorByQueryParam(queries);
     }
     
 }

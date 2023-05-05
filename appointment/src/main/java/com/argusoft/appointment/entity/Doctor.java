@@ -1,12 +1,13 @@
 package com.argusoft.appointment.entity;
 
 import java.sql.Time;
-
+import java.util.List;
 import java.util.Set;
 
 import javax.print.Doc;
 
 import com.argusoft.appointment.utils.customserializers.DoctorSpecializationSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.CascadeType;
@@ -20,6 +21,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -88,6 +90,17 @@ public class Doctor {
     @JoinColumn(name = "userId")
     private User user;
 
+    @OneToMany(mappedBy="doctor",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Appointment> appointments;
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 
     public int getSlotDuration() {
         return slotDuration;

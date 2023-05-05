@@ -1,6 +1,8 @@
 package com.argusoft.appointment.controller.doctor;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.argusoft.appointment.entity.Doctor;
@@ -97,7 +100,13 @@ public class DoctorController {
 
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
-
+    @LogThis
+    @GetMapping(value = {"query","/query"})
+    public ResponseEntity<ResponseBodyObj<List<Doctor>>> getApppointmentsByQueryParams(@RequestParam Map<String,String> allParams){
+        ResponseBodyObj<List<Doctor>> res = new ResponseBodyObj<>(HttpStatus.OK, "List Of Doctors",  doctorService.getDoctorsByQueryParams(allParams));
+        return new ResponseEntity<>(res,HttpStatus.OK);
+       
+    }
    
     
     
