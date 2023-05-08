@@ -1,9 +1,6 @@
 package com.argusoft.appointment.service.appointment;
 
 import java.sql.Date;
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 // import java.util.Time;
 import java.util.ArrayList;
@@ -113,32 +110,36 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<Slot> getAvailableSlotsForADoctor(int doctorId, Date appointmentDate) {
 
         Doctor doctor = doctorDao.getDoctorById(doctorId);
-        Map<String, Object> params = new HashMap<>();
-        params.put("doctor.doctorId", String.valueOf(doctorId));
-        params.put("appointmentDate", appointmentDate);
-        List<Appointment> doctorsBookedAppointments = appointmentDao.getAppointmentByQueryParam(params);
-
+       
         List<Slot> slots = null;
-        // List<Appointment> appointments = appointmentDao.
+     
         if (doctor != null) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("doctor.doctorId", String.valueOf(doctorId));
+            params.put("appointmentDate", appointmentDate);
             slots = new ArrayList();
+            List<Appointment> doctorsBookedAppointments = appointmentDao.getAppointmentByQueryParam(params);
+           for(Appointment appointment:doctorsBookedAppointments){
+                slots.add(new Slot(appointment.getAppointmentTime().toLocalTime(), true));
+           }
 
-            Time startTimeSql = doctor.getStartTime();
-            Time endTimeSql = doctor.getEndTime();
-            Time recessStartTimeSql = doctor.getRecessStartTime();
-            Time recessEndTimeSql = doctor.getRecessEndTime();
-            LocalTime startTime = LocalTime.of(startTimeSql.getHours(), startTimeSql.getMinutes(),
-                    startTimeSql.getSeconds());
-            LocalTime endTime = LocalTime.of(endTimeSql.getHours(), endTimeSql.getMinutes(), endTimeSql.getSeconds());
-            LocalTime recessStartTime = LocalTime.of(recessStartTimeSql.getHours(), recessStartTimeSql.getMinutes(),
-                    recessStartTimeSql.getSeconds());
-            LocalTime recessEndTime = LocalTime.of(recessEndTimeSql.getHours(), recessEndTimeSql.getMinutes(),
-                    recessEndTimeSql.getSeconds());
+            LocalTime startTime = doctor.getStartTime().toLocalTime();
+            LocalTime endTime = doctor.getEndTime().toLocalTime();
+            LocalTime recessStartTime = doctor.getRecessStartTime().toLocalTime();
+            LocalTime recessEndTime = doctor.getRecessEndTime().toLocalTime();
             LocalTime temp = startTime;
-            while (temp.compareTo(endTime) <= 0) {
+            while (temp.compareTo(endTime) < 0) {
 
-                if (!(temp.compareTo(recessStartTime) >= 0 && temp.compareTo(recessEndTime) <= 0)) {
+                boolean slotAlreadyBooked = false;
+                for (Appointment appointment : doctorsBookedAppointments) {
+                    if (appointment.getAppointmentTime().toLocalTime().equals(temp)) {
+                        slotAlreadyBooked = true;
+                        break;
+                    }
+                }
 
+                if (!(temp.compareTo(recessStartTime) >= 0 && temp.compareTo(recessEndTime) < 0) && !slotAlreadyBooked) {
+                    
                     slots.add(new Slot(temp, false));
 
                 }
