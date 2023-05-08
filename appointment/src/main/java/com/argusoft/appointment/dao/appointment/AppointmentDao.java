@@ -13,5 +13,5 @@ public interface AppointmentDao {
     public Appointment updateAppointmentById(int id,Appointment updatedAppointment);
     public Appointment deleteAppointmentById(int id);  
     public <T> List<Appointment> getAppointmentByParam(String paramName,T paramValue); 
-    public  List<Appointment> getAppointmentByQueryParam(Map<String,String> queires); 
+    public  List<Appointment> getAppointmentByQueryParam(Map<String,Object> queires); 
 }

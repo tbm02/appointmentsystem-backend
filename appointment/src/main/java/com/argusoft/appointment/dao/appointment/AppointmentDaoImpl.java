@@ -98,7 +98,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
 
     @LogThis
     @Override
-    public List<Appointment> getAppointmentByQueryParam(Map<String,String> queries) {
+    public List<Appointment> getAppointmentByQueryParam(Map<String,Object> queries) {
         // System.out.println("Reached the request here "+paramName+"= = = ="+paramValue);
         String whereSegment = "";
         int counter = 0;
@@ -118,7 +118,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
 
         TypedQuery<Appointment> query = entityManager.createQuery(ql, Appointment.class);
        
-        for(String value:queries.values()){
+        for(Object value:queries.values()){
             query.setParameter(++counter,value);
             System.out.println(query.getParameterValue(counter));
             // System.out.println(counter+""+value);

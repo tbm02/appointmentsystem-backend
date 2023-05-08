@@ -1,5 +1,6 @@
 package com.argusoft.appointment.controller.appointment;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.argusoft.appointment.entity.Appointment;
 import com.argusoft.appointment.service.appointment.AppointmentService;
+import com.argusoft.appointment.utils.DataTypeEnums.Slot;
 import com.argusoft.appointment.utils.customannotations.LogThis;
 import com.argusoft.appointment.utils.responsebody.ResponseBodyObj;
 
+import jakarta.persistence.Query;
 import jakarta.validation.Valid;
 
 @RestController
@@ -127,8 +130,16 @@ public class AppointmentController {
 
     @LogThis
     @GetMapping(value = {"query","/query"})
-    public ResponseEntity<ResponseBodyObj<List<Appointment>>> getApppointmentsByQueryParams(@RequestParam Map<String,String> allParams){
+    public ResponseEntity<ResponseBodyObj<List<Appointment>>> getApppointmentsByQueryParams(@RequestParam Map<String,Object> allParams){
         ResponseBodyObj<List<Appointment>> res = new ResponseBodyObj<>(HttpStatus.OK, "List Of Appointments",  AppointmentService.getAppointmentsByQueryParams(allParams));
+        return new ResponseEntity<>(res,HttpStatus.OK);
+       
+    }
+
+    @LogThis
+    @GetMapping(value = {"slots/{id}/{date}"})
+    public ResponseEntity<ResponseBodyObj<List<Slot>>> getAppointmentSlotsForADoctor(@PathVariable int id,@PathVariable Date date){
+        ResponseBodyObj<List<Slot>> res = new ResponseBodyObj<>(HttpStatus.OK, "List Of Slots",  AppointmentService.getAvailableSlotsForADoctor(id,date));
         return new ResponseEntity<>(res,HttpStatus.OK);
        
     }
